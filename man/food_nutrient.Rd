@@ -36,4 +36,22 @@ food_nutrient
 A nutrient value for a food. Amounts are per 100g of food, in the
 unit defined in the \link{nutrient} table.
 }
+\section{Joins}{
+
+\itemize{
+\item \link{food} on \code{fdc_id}: food name and metadata.
+\item \link{nutrient} on \code{nutrient_id = id}: nutrient name and unit.
+}
+}
+
+\examples{
+\dontshow{if (requireNamespace("dplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(dplyr)
+
+# Add food and nutrient names to nutrient values
+food_nutrient |>
+  left_join(food, by = "fdc_id") |>
+  left_join(nutrient, by = c("nutrient_id" = "id"))
+\dontshow{\}) # examplesIf}
+}
 \keyword{datasets}

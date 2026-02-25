@@ -21,4 +21,23 @@ food_category
 \description{
 Foods of defined similarity.
 }
+\section{Joins}{
+
+\itemize{
+\item \link{food} on \code{id = food_category_id}: foods in this category.
+}
+}
+
+\examples{
+\dontshow{if (requireNamespace("dplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(dplyr)
+
+# Add category names to foods
+food |>
+  left_join(
+    food_category |> select(id, category = description),
+    by = c("food_category_id" = "id")
+  )
+\dontshow{\}) # examplesIf}
+}
 \keyword{datasets}

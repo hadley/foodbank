@@ -14,6 +14,25 @@
 #'   \item{publication_date}{Date when the food was published to
 #'     FoodData Central.}
 #' }
+#'
+#' @section Joins:
+#' - [food_nutrient] on `fdc_id`: nutrient values for this food.
+#' - [food_portion] on `fdc_id`: serving size measures for this food.
+#' - [food_category] on `food_category_id = id`: food group name.
+#'
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
+#' library(dplyr)
+#'
+#' # Add food category names
+#' food |>
+#'   left_join(food_category, by = c("food_category_id" = "id"))
+#'
+#' # Get all nutrient values for a food
+#' food |>
+#'   filter(description == "Hummus, commercial") |>
+#'   left_join(food_nutrient, by = "fdc_id") |>
+#'   left_join(nutrient, by = c("nutrient_id" = "id"))
+#'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "food"
 
@@ -42,6 +61,19 @@
 #'   \item{min_year_acquired}{Minimum purchase year of all acquisitions
 #'     used to derive the nutrient value.}
 #' }
+#'
+#' @section Joins:
+#' - [food] on `fdc_id`: food name and metadata.
+#' - [nutrient] on `nutrient_id = id`: nutrient name and unit.
+#'
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
+#' library(dplyr)
+#'
+#' # Add food and nutrient names to nutrient values
+#' food_nutrient |>
+#'   left_join(food, by = "fdc_id") |>
+#'   left_join(nutrient, by = c("nutrient_id" = "id"))
+#'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "food_nutrient"
 
@@ -60,6 +92,20 @@
 #'     constituent.}
 #'   \item{rank}{Display rank for ordering nutrients.}
 #' }
+#'
+#' @section Joins:
+#' - [food_nutrient] on `id = nutrient_id`: nutrient values per food.
+#'
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
+#' library(dplyr)
+#'
+#' # Find which foods contain the most Protein
+#' nutrient |>
+#'   filter(name == "Protein") |>
+#'   left_join(food_nutrient, by = c("id" = "nutrient_id")) |>
+#'   left_join(food, by = "fdc_id") |>
+#'   arrange(desc(amount))
+#'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "nutrient"
 
@@ -90,6 +136,19 @@
 #'   \item{min_year_acquired}{Minimum purchase year of all acquisitions
 #'     used to derive the measure value.}
 #' }
+#'
+#' @section Joins:
+#' - [food] on `fdc_id`: food name and metadata.
+#' - [measure_unit] on `measure_unit_id = id`: unit name.
+#'
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
+#' library(dplyr)
+#'
+#' # Show portions with food and unit names
+#' food_portion |>
+#'   left_join(food, by = "fdc_id") |>
+#'   left_join(measure_unit, by = c("measure_unit_id" = "id"))
+#'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "food_portion"
 
@@ -102,6 +161,18 @@
 #'   \item{id}{Unique permanent identifier.}
 #'   \item{name}{Name of the unit.}
 #' }
+#'
+#' @section Joins:
+#' - [food_portion] on `id = measure_unit_id`: portions using this
+#'   unit.
+#'
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
+#' library(dplyr)
+#'
+#' # See which units are used in portions
+#' measure_unit |>
+#'   inner_join(food_portion, by = c("id" = "measure_unit_id"))
+#'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "measure_unit"
 
@@ -115,5 +186,19 @@
 #'   \item{code}{Food group code.}
 #'   \item{description}{Description of the food group.}
 #' }
+#'
+#' @section Joins:
+#' - [food] on `id = food_category_id`: foods in this category.
+#'
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
+#' library(dplyr)
+#'
+#' # Add category names to foods
+#' food |>
+#'   left_join(
+#'     food_category |> select(id, category = description),
+#'     by = c("food_category_id" = "id")
+#'   )
+#'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "food_category"

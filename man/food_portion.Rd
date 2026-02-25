@@ -38,4 +38,22 @@ food_portion
 Discrete amounts of food, used to convert from per-100g nutrient
 values to common serving sizes.
 }
+\section{Joins}{
+
+\itemize{
+\item \link{food} on \code{fdc_id}: food name and metadata.
+\item \link{measure_unit} on \code{measure_unit_id = id}: unit name.
+}
+}
+
+\examples{
+\dontshow{if (requireNamespace("dplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(dplyr)
+
+# Show portions with food and unit names
+food_portion |>
+  left_join(food, by = "fdc_id") |>
+  left_join(measure_unit, by = c("measure_unit_id" = "id"))
+\dontshow{\}) # examplesIf}
+}
 \keyword{datasets}

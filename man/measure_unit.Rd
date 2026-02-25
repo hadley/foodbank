@@ -20,4 +20,21 @@ measure_unit
 \description{
 Units for measuring quantities of foods.
 }
+\section{Joins}{
+
+\itemize{
+\item \link{food_portion} on \code{id = measure_unit_id}: portions using this
+unit.
+}
+}
+
+\examples{
+\dontshow{if (requireNamespace("dplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(dplyr)
+
+# See which units are used in portions
+measure_unit |>
+  inner_join(food_portion, by = c("id" = "measure_unit_id"))
+\dontshow{\}) # examplesIf}
+}
 \keyword{datasets}

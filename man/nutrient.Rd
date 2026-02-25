@@ -26,4 +26,23 @@ nutrient
 The chemical constituents of a food (e.g. calcium, vitamin E)
 officially recognized as essential to human health.
 }
+\section{Joins}{
+
+\itemize{
+\item \link{food_nutrient} on \code{id = nutrient_id}: nutrient values per food.
+}
+}
+
+\examples{
+\dontshow{if (requireNamespace("dplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(dplyr)
+
+# Find which foods contain the most Protein
+nutrient |>
+  filter(name == "Protein") |>
+  left_join(food_nutrient, by = c("id" = "nutrient_id")) |>
+  left_join(food, by = "fdc_id") |>
+  arrange(desc(amount))
+\dontshow{\}) # examplesIf}
+}
 \keyword{datasets}

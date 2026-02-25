@@ -27,4 +27,28 @@ Any substance consumed by humans for nutrition, taste and/or aroma.
 From the USDA FoodData Central Foundation Foods dataset
 (December 2025).
 }
+\section{Joins}{
+
+\itemize{
+\item \link{food_nutrient} on \code{fdc_id}: nutrient values for this food.
+\item \link{food_portion} on \code{fdc_id}: serving size measures for this food.
+\item \link{food_category} on \code{food_category_id = id}: food group name.
+}
+}
+
+\examples{
+\dontshow{if (requireNamespace("dplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(dplyr)
+
+# Add food category names
+food |>
+  left_join(food_category, by = c("food_category_id" = "id"))
+
+# Get all nutrient values for a food
+food |>
+  filter(description == "Hummus, commercial") |>
+  left_join(food_nutrient, by = "fdc_id") |>
+  left_join(nutrient, by = c("nutrient_id" = "id"))
+\dontshow{\}) # examplesIf}
+}
 \keyword{datasets}

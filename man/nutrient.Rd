@@ -40,8 +40,8 @@ library(dplyr)
 # Find which foods contain the most Protein
 nutrient |>
   filter(name == "Protein") |>
-  left_join(food_nutrient, by = c("id" = "nutrient_id")) |>
-  left_join(food, by = "fdc_id") |>
+  left_join(food_nutrient, join_by(id == nutrient_id)) |>
+  left_join(food, join_by(fdc_id)) |>
   arrange(desc(amount))
 \dontshow{\}) # examplesIf}
 }

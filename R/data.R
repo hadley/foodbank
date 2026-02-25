@@ -25,13 +25,13 @@
 #'
 #' # Add food category names
 #' food |>
-#'   left_join(food_category, by = c("food_category_id" = "id"))
+#'   left_join(food_category, join_by(food_category_id == id))
 #'
 #' # Get all nutrient values for a food
 #' food |>
 #'   filter(description == "Hummus, commercial") |>
-#'   left_join(food_nutrient, by = "fdc_id") |>
-#'   left_join(nutrient, by = c("nutrient_id" = "id"))
+#'   left_join(food_nutrient, join_by(fdc_id)) |>
+#'   left_join(nutrient, join_by(nutrient_id == id))
 #'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "food"
@@ -71,8 +71,8 @@
 #'
 #' # Add food and nutrient names to nutrient values
 #' food_nutrient |>
-#'   left_join(food, by = "fdc_id") |>
-#'   left_join(nutrient, by = c("nutrient_id" = "id"))
+#'   left_join(food, join_by(fdc_id)) |>
+#'   left_join(nutrient, join_by(nutrient_id == id))
 #'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "food_nutrient"
@@ -102,8 +102,8 @@
 #' # Find which foods contain the most Protein
 #' nutrient |>
 #'   filter(name == "Protein") |>
-#'   left_join(food_nutrient, by = c("id" = "nutrient_id")) |>
-#'   left_join(food, by = "fdc_id") |>
+#'   left_join(food_nutrient, join_by(id == nutrient_id)) |>
+#'   left_join(food, join_by(fdc_id)) |>
 #'   arrange(desc(amount))
 #'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
@@ -146,8 +146,8 @@
 #'
 #' # Show portions with food and unit names
 #' food_portion |>
-#'   left_join(food, by = "fdc_id") |>
-#'   left_join(measure_unit, by = c("measure_unit_id" = "id"))
+#'   left_join(food, join_by(fdc_id)) |>
+#'   left_join(measure_unit, join_by(measure_unit_id == id))
 #'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "food_portion"
@@ -171,7 +171,7 @@
 #'
 #' # See which units are used in portions
 #' measure_unit |>
-#'   inner_join(food_portion, by = c("id" = "measure_unit_id"))
+#'   inner_join(food_portion, join_by(id == measure_unit_id))
 #'
 #' @source <https://fdc.nal.usda.gov/download-datasets>
 "measure_unit"
@@ -197,7 +197,7 @@
 #' food |>
 #'   left_join(
 #'     food_category |> select(id, category = description),
-#'     by = c("food_category_id" = "id")
+#'     join_by(food_category_id == id)
 #'   )
 #'
 #' @source <https://fdc.nal.usda.gov/download-datasets>

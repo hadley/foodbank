@@ -55,8 +55,8 @@ Look up the nutrients in hummus:
 ```{r}
 food |>
   filter(description == "Hummus, commercial") |>
-  left_join(food_nutrient, by = "fdc_id") |>
-  left_join(nutrient, by = c("nutrient_id" = "id")) |>
+  left_join(food_nutrient, join_by(fdc_id)) |>
+  left_join(nutrient, join_by(nutrient_id == id)) |>
   select(description, name, amount, unit_name) |>
   head(10)
 ```
@@ -66,8 +66,8 @@ Find the foods highest in protein:
 ```{r}
 nutrient |>
   filter(name == "Protein") |>
-  left_join(food_nutrient, by = c("id" = "nutrient_id")) |>
-  left_join(food, by = "fdc_id") |>
+  left_join(food_nutrient, join_by(id == nutrient_id)) |>
+  left_join(food, join_by(fdc_id)) |>
   select(description, amount, unit_name) |>
   arrange(desc(amount)) |>
   head(10)

@@ -36,7 +36,7 @@ library(dplyr)
 food |>
   left_join(
     food_category |> select(id, category = description),
-    by = c("food_category_id" = "id")
+    join_by(food_category_id == id)
   )
 \dontshow{\}) # examplesIf}
 }

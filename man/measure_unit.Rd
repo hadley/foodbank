@@ -34,7 +34,7 @@ library(dplyr)
 
 # See which units are used in portions
 measure_unit |>
-  inner_join(food_portion, by = c("id" = "measure_unit_id"))
+  inner_join(food_portion, join_by(id == measure_unit_id))
 \dontshow{\}) # examplesIf}
 }
 \keyword{datasets}

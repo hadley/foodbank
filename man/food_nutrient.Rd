@@ -50,8 +50,8 @@ library(dplyr)
 
 # Add food and nutrient names to nutrient values
 food_nutrient |>
-  left_join(food, by = "fdc_id") |>
-  left_join(nutrient, by = c("nutrient_id" = "id"))
+  left_join(food, join_by(fdc_id)) |>
+  left_join(nutrient, join_by(nutrient_id == id))
 \dontshow{\}) # examplesIf}
 }
 \keyword{datasets}

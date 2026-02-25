@@ -52,8 +52,8 @@ library(dplyr)
 
 # Show portions with food and unit names
 food_portion |>
-  left_join(food, by = "fdc_id") |>
-  left_join(measure_unit, by = c("measure_unit_id" = "id"))
+  left_join(food, join_by(fdc_id)) |>
+  left_join(measure_unit, join_by(measure_unit_id == id))
 \dontshow{\}) # examplesIf}
 }
 \keyword{datasets}

@@ -42,13 +42,13 @@ library(dplyr)
 
 # Add food category names
 food |>
-  left_join(food_category, by = c("food_category_id" = "id"))
+  left_join(food_category, join_by(food_category_id == id))
 
 # Get all nutrient values for a food
 food |>
   filter(description == "Hummus, commercial") |>
-  left_join(food_nutrient, by = "fdc_id") |>
-  left_join(nutrient, by = c("nutrient_id" = "id"))
+  left_join(food_nutrient, join_by(fdc_id)) |>
+  left_join(nutrient, join_by(nutrient_id == id))
 \dontshow{\}) # examplesIf}
 }
 \keyword{datasets}

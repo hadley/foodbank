@@ -1,0 +1,78 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# foodbank
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+foodbank provides the [USDA FoodData Central](https://fdc.nal.usda.gov/) Foundation Foods dataset as a set of data frames ready for analysis in R. It includes 436 foods with nutrient values, serving size portions, and food categories.
+
+## Installation
+
+You can install the development version of foodbank from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("hadley/foodbank")
+```
+
+## Datasets
+
+foodbank provides six tables centered around `food`:
+
+- `food`: 436 foundation foods with descriptions and categories.
+  - Each food belongs to one `food_category` (join on `food_category_id = id`).
+  - Each food has many rows in `food_nutrient` (join on `fdc_id`).
+  - Some foods have rows in `food_portion` (join on `fdc_id`).
+- `food_nutrient`: 19,828 nutrient values (per 100g of food). Each row links to one `nutrient` (join on `nutrient_id = id`) and one `food` (join on `fdc_id`).
+- `nutrient`: 477 nutrient definitions with names and units.
+- `food_portion`: 187 serving size measures with gram weights. Each row links to one `measure_unit` (join on `measure_unit_id = id`).
+- `measure_unit`: 123 units used in portion measures.
+- `food_category`: 28 food groups.
+
+## Example
+
+```{r example, message = FALSE}
+library(foodbank)
+library(dplyr)
+```
+
+Look up the nutrients in hummus:
+
+```{r}
+food |>
+  filter(description == "Hummus, commercial") |>
+  left_join(food_nutrient, by = "fdc_id") |>
+  left_join(nutrient, by = c("nutrient_id" = "id")) |>
+  select(description, name, amount, unit_name) |>
+  head(10)
+```
+
+Find the foods highest in protein:
+
+```{r}
+nutrient |>
+  filter(name == "Protein") |>
+  left_join(food_nutrient, by = c("id" = "nutrient_id")) |>
+  left_join(food, by = "fdc_id") |>
+  select(description, amount, unit_name) |>
+  arrange(desc(amount)) |>
+  head(10)
+```
+
+## Data source
+
+The data comes from the [USDA FoodData Central](https://fdc.nal.usda.gov/) Foundation Foods dataset (December 2025 release). Foundation foods have nutrient values derived primarily by chemical analysis, with extensive underlying metadata.

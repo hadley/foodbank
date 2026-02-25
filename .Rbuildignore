@@ -5,3 +5,4 @@
 ^data-raw$
 ^[.]?air[.]toml$
 ^\.vscode$
+^README\.Rmd$

@@ -1,11 +1,15 @@
 Package: foodbank
-Title: USDA Food bank data
+Title: USDA FoodData Central Foundation Foods
 Version: 0.0.0.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre")),
     person("Posit Software, PBC", role = c("cph", "fnd"))
   )
-Description: What the package does (one paragraph).
+Description: Provides the USDA FoodData Central Foundation Foods dataset
+    as a set of data frames ready for analysis in R. Includes 436 foods
+    with nutrient values, serving size portions, and food categories,
+    sourced from the December 2025 release. Data is stored as parquet
+    files for efficient access.
 License: CC0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

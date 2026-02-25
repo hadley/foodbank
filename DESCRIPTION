@@ -14,5 +14,9 @@ LazyData: true
 Imports: 
     nanoparquet
 Suggests: 
+    DBI,
     dplyr,
+    duckdb,
+    testthat (>= 3.0.0),
     tibble
+Config/testthat/edition: 3

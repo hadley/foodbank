@@ -103,13 +103,7 @@ is useful for SQL queries or working with the data via dbplyr:
 
 ``` r
 con <- DBI::dbConnect(duckdb::duckdb())
-
-parquet_dir <- system.file("parquet", package = "foodbank")
-parquet_files <- list.files(parquet_dir, pattern = "\\.parquet$", full.names = TRUE)
-for (f in parquet_files) {
-  table_name <- tools::file_path_sans_ext(basename(f))
-  DBI::dbExecute(con, sprintf("CREATE VIEW %s AS SELECT * FROM '%s'", table_name, f))
-}
+for (sql in foodbank_sql()) DBI::dbExecute(con, sql)
 
 DBI::dbGetQuery(con, "
   SELECT f.description, n.name, fn.amount, n.unit_name

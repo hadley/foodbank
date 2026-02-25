@@ -96,6 +96,43 @@ nutrient |>
 #> 10 Cheese, parmesan, grated                                       29.6 G
 ```
 
+## DuckDB
+
+You can also create a DuckDB database backed by the parquet files, which
+is useful for SQL queries or working with the data via dbplyr:
+
+``` r
+con <- DBI::dbConnect(duckdb::duckdb())
+
+parquet_dir <- system.file("parquet", package = "foodbank")
+parquet_files <- list.files(parquet_dir, pattern = "\\.parquet$", full.names = TRUE)
+for (f in parquet_files) {
+  table_name <- tools::file_path_sans_ext(basename(f))
+  DBI::dbExecute(con, sprintf("CREATE VIEW %s AS SELECT * FROM '%s'", table_name, f))
+}
+
+DBI::dbGetQuery(con, "
+  SELECT f.description, n.name, fn.amount, n.unit_name
+  FROM food f
+  JOIN food_nutrient fn ON f.fdc_id = fn.fdc_id
+  JOIN nutrient n ON fn.nutrient_id = n.id
+  WHERE f.description = 'Hummus, commercial'
+  ORDER BY fn.amount DESC
+  LIMIT 8
+")
+#>          description                              name amount unit_name
+#> 1 Hummus, commercial                            Energy    960        kJ
+#> 2 Hummus, commercial                        Sodium, Na    438        MG
+#> 3 Hummus, commercial                      Potassium, K    289        MG
+#> 4 Hummus, commercial               Lutein + zeaxanthin    258        UG
+#> 5 Hummus, commercial  Energy (Atwater General Factors)    243      KCAL
+#> 6 Hummus, commercial Energy (Atwater Specific Factors)    229      KCAL
+#> 7 Hummus, commercial                            Energy    229      KCAL
+#> 8 Hummus, commercial                     Phosphorus, P    166        MG
+
+DBI::dbDisconnect(con)
+```
+
 ## Data source
 
 The data comes from the [USDA FoodData

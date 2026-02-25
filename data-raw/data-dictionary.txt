@@ -1,0 +1,252 @@
+"Download Field Descriptions","...2","...3","...4"
+"Table / File","Field","Definition of data element","Synonyms (used on user interface only)"
+NA,"GLOBAL column definitions","These fields appear in multiple files, and their definition is typically the same unless noted below",NA
+NA,"fdc_id","Unique permanent identifier of a food in the food table",NA
+NA,"id","Unique permanent identifier of other kinds of data (e.g. nutrients, lab methods, etc.) in their related table",NA
+NA,NA,NA,NA
+"agricultural_samples",NA,"Non-processed foods obtained directly from the location where they are produced",NA
+NA,"fdc_id","ID of the food in the food table","FDC Source ID"
+NA,"acquisition_date","The date this food was obtained",NA
+NA,"market_class","The name of the specific kind of this food (eg. ""Pinto"" for pinto beans)",NA
+NA,"treatment","Any special condition relevant to the production of this food - typically ""drought"" or ""control""",NA
+NA,"state","The state in which this food was produced",NA
+NA,NA,NA,NA
+"acquisition_samples",NA,"Acquisitions may be blended with other acquisitions to create a sample food, and an acquisition can be used to created more than one sample food. This file stores which acquisitions and sample foods are related to each other.",NA
+NA,"fdc_id_of_sample_food","ID of the sample food that uses the acquisitioned food",NA
+NA,"fdc_id_of_acquisition_food","ID of the acquisitioned food used in the sample food",NA
+NA,NA,NA,NA
+"branded_food",NA,"Foods whose nutrient values are typically obtained from food label data provided by food brand owners.",NA
+NA,"fdc_id","ID of the food in the food table",NA
+NA,"brand_owner","Brand owner for the food",NA
+NA,"brand_name","Brand name for the food",NA
+NA,"subbrand_name","Subbrand and variation descriptions",NA
+NA,"gtin_upc","GTIN or UPC code identifying the food. Duplicate codes signify an update to the product, use the publication_date found in the food table to distinguish when each update was published, e.g. the latest publication date will be the most recent update of the product.","GTIN/UPC"
+NA,"ingredients","The list of ingredients (as it appears on the product label)",NA
+NA,"not_a_significant_source_of","Full text for the ""not a significant source of…"" label claim",NA
+NA,"serving_size","The amount of the serving size when expressed as gram or ml",NA
+NA,"serving_size_unit","The unit used to express the serving size (gram or ml)",NA
+NA,"household_serving_fulltext","The amount and unit of serving size when expressed in household units",NA
+NA,"branded_food_category","The category of the branded food, assigned by GDSN or Label Insight",NA
+NA,"data_source","The source of the data for this food. GDSN (for GS1) or LI (for Label Insight).",NA
+NA,"package_weight","Weight of the package",NA
+NA,"modified_date","This date reflects when the product data was last modified by the data provider, i.e., the manufacturer",NA
+NA,"available_date","This is the date when the product record was available for inclusion in the database.",NA
+NA,"discontinued_date","This is the date when the product was discontinued.",NA
+NA,"market_country","The primary country where the product is marketed.",NA
+NA,"preparation_state_code","Code to describe the preparation of the food.  Defined in GS1 link https://www.gs1.org/voc/PreparationTypeCode",NA
+NA,"trade_channel","Includes a list of locations or programs in which the food is available.  Primarily used for Child Nutrition Food Programs",NA
+NA,"short_description","Manufacturer's short description of the product",NA
+NA,NA,NA,NA
+"fndds_derivation",NA,NA,NA
+NA,"derivation_code","Derivation code as defined by FDC",NA
+NA,"derivation_description","The description of the derivation code",NA
+NA,NA,NA,NA
+"fndds_ingredient_nutrient_value",NA,NA,NA
+NA,"ingredient_code","Identifies only NDB number",NA
+NA,"Ingredient_description","Description of NDB number",NA
+NA,"nutrient_code","3-digit identification number",NA
+NA,"nutrient_value","Amount per 100g edible portion for energy and 64 nutrients",NA
+NA,"nutrient_value_ source","FDC or other source for nutrient value",NA
+NA,"fdc_id","Identifier of food in FDC",NA
+NA,"derivation_code","Derivation code as defined by FDC",NA
+NA,"sr_addmod_year","Year value added or last modified as defined by SR",NA
+NA,"foundation_year_acquired","Initial year acquired as defined by FDC",NA
+NA,"start_date","start date of FNDDS version released",NA
+NA,"end_date","end date of FNDDS version released",NA
+NA,NA,NA,NA
+"food",NA,"Any substance consumed by humans for nutrition, taste and/or aroma",NA
+NA,"fdc_id","Unique permanent identifier of the food","FDC Source ID (used for acquisition foods)"
+NA,"foodClass","For internal use only",NA
+NA,"data_type","Type of food data (see Files tab for possible values).",NA
+NA,"description","Description of the food",NA
+NA,"food_category_id","Id of the food category the food belongs to",NA
+NA,"publication_date","Date when the food was published to FoodData Central","Published, Published Date, FDC Published"
+NA,"scientific_name","The scientific name for the food",NA
+NA,NA,NA,NA
+"food_attribute",NA,"The value for a generic property of a food","More Information (tab), Update Log (tab)"
+NA,"id",NA,NA
+NA,"fdc_id","ID of the food this food attribute pertains to",NA
+NA,"seq_num","The order the attribute will be displayed on the released food.",NA
+NA,"food_attribute_type_id","ID of the type of food attribute to which this value is associated for a specific food",NA
+NA,"name","Name of food attribute","Changes (on Update Log)"
+NA,"value","The actual value of the attribute",NA
+NA,NA,NA,NA
+"food_attribute_type",NA,"The list of supported attributes associated with a food",NA
+NA,"id",NA,NA
+NA,"name","Name of the attribute associated with the food - should be displayable to users",NA
+NA,"description","Description of the attribute",NA
+NA,NA,NA,NA
+"food_calorie_conversion_factor",NA,"The multiplication factors to be used when calculating energy from macronutrients for a specific food",NA
+NA,"food_nutrient_conversion_factor_id","ID of the related row in the nutrient_conversion_factor table",NA
+NA,"protein_value","The multiplication factor for protein",NA
+NA,"fat_value","The multiplication factor for fat",NA
+NA,"carbohydrate_value","The multiplication factor for carbohydrates",NA
+NA,NA,NA,NA
+"food_category",NA,"Foods of defined similarity",NA
+NA,"id",NA,NA
+NA,"code","Food group code",NA
+NA,"description","Description of the food group",NA
+NA,NA,NA,NA
+"food_component",NA,"A constituent part of a food (e.g. bone is a component of meat)",NA
+NA,"id",NA,NA
+NA,"fdc_id","ID of the food this food component pertains to",NA
+NA,"name","The kind  of component, e.g. bone",NA
+NA,"pct_weight","The weight of the component as a percentage of the total weight of the food","Weight (%)"
+NA,"is_refuse","Whether the component is refuse, i.e. not edible","Refuse"
+NA,"gram_weight","The weight of the component in grams","Weight (g)"
+NA,"data_points","The number of observations on which the measure is based","n"
+NA,"min_year_acquired","Minimum purchase year of all acquisitions used to derive the component value","Year Acquired"
+NA,NA,NA,NA
+NA,NA,NA,NA
+"food_nutrient",NA,"A nutrient value for a food",NA
+NA,"id",NA,NA
+NA,"fdc_id","ID of the food this food nutrient pertains to",NA
+NA,"nutrient_id","ID of the nutrient to which the food nutrient pertains",NA
+NA,"amount","Amount of the nutrient per 100g of food. Specified in unit defined in the nutrient table.","Average Amount"
+NA,"data_points","Number of observations on which the value is based","n"
+NA,"derivation_id","ID of the food nutrient derivation technique used to derive the value",NA
+NA,"min","The minimum amount",NA
+NA,"max","The maximum amount",NA
+NA,"median","The median amount",NA
+NA,"loq","Limit of quantification as provided by laboratory",NA
+NA,"footnote","Comments on any unusual aspects of the food nutrient. Examples might include why a nutrient value is different than typically expected.",NA
+NA,"min_year_acquired","Minimum purchase year of all acquisitions used to derive the nutrient value","Year Acquired, Initial Year Acquired"
+NA,NA,NA,NA
+"food_nutrient_conversion_factor",NA,"Top level type for all types of nutrient conversion factors. A separate row is stored for each of these 3 types of conversion factor.",NA
+NA,"id",NA,NA
+NA,"fdc_id","ID of the food that this food nutrient conversion factor pertains to",NA
+NA,NA,NA,NA
+"food_nutrient_derivation",NA,"Procedure indicating how a food nutrient value was obtained",NA
+NA,"id",NA,NA
+NA,"code","Code used for the derivation (e.g. A means analytical)",NA
+NA,"description","Description of the derivation","Deriv. By"
+NA,NA,NA,NA
+"food_nutrient_source",NA,"An information source from which we can obtain food nutrient values",NA
+NA,"id",NA,NA
+NA,"code","Code used for the source (e.g. 4 means calculated or imputed)",NA
+NA,"description","Description of the source",NA
+NA,NA,NA,NA
+"food_portion",NA,"Discrete amount of food","Measures (for foundation or legacy foods), Portions (for survey foods)"
+NA,"id",NA,NA
+NA,"fdc_id","ID of the food this food portion pertains to",NA
+NA,"seq_num","The order the measure will be displayed on the released food.",NA
+NA,"amount","The number of measure units that comprise the measure (e.g. if measure is 3 tsp, the amount is 3). Not defined for survey (FNDDS) foods (amount is instead embedded in portion description).",NA
+NA,"measure_unit_id","The unit used for the measure (e.g. if measure is 3 tsp, the unit is tsp). For food types that do not use measure SR legacy foods and survey (FNDDS) foods), a value of '9999' is assigned to this field.","Unit"
+NA,"portion_description","Foundation foods: Comments that provide more specificity on the measure. For example, for a pizza measure the dissemination text might be 1 slice is 1/8th of a 14 inch pizza"".""   Survey (FNDDS) foods: The household description of the portion.","Measure Description"
+NA,"modifier","Foundation foods: Qualifier of the measure (e.g. related to food shape or form)  (e.g. melted, crushed, diced). Survey (FNDDS) foods: The portion code. SR legacy foods: description of measures, including the unit of measure and the measure modifier (e.g. waffle round (4"" dia)).",NA
+NA,"gram_weight","The weight of the measure in grams","Weight (g)"
+NA,"data_points","The number of observations on which the measure is based","n"
+NA,"footnote","Comments on any unusual aspects of the measure. These are released to the public. Examples might include caveats on the usage of a measure, or reasons why a measure gram weight is an unexpected value.",NA
+NA,"min_year_acquired","Minimum purchase year of all acquisitions used to derive the measure value","Year Acquired"
+NA,NA,NA,NA
+"food_protein_conversion_factor",NA,NA,NA
+NA,"food_nutrient_conversion_factor_id","Id of the related row in the nutrient_conversion_factor table",NA
+NA,"value","The multiplication factor used to calculate protein from nitrogen",NA
+NA,NA,NA,NA
+"food_update_log_entry",NA,"Historical record of an update of food data",NA
+NA,"fdc_id","ID of the food in the food table",NA
+NA,"description","Description of the food",NA
+NA,"fdc_publication_date","Date when the food was published to FoodData Central","Published, Published Date"
+NA,NA,NA,NA
+"foundation_food",NA,"Foods whose nutrient and food component values are derived primarily by chemical analysis. Foundation data also include extensive underlying metadata, such as the number of samples, the location and dates on which samples were obtained, analytical approaches used, and if appropriate, cultivar, genotype, and production practices.",NA
+NA,"fdc_id","ID of the food in the food table",NA
+NA,"NDB_number","Unique number assigned for the food, different from fdc_id, assigned in SR",NA
+NA,"footnote","Comments on any unusual aspects. These are released to the public. Examples might include unusual aspects of the food overall.",NA
+NA,NA,NA,NA
+"input_food",NA,"A food that is an ingredient (for survey (FNDDS) foods) or a source food (for foundation foods or their source foods) to another food.","Sources (for foundation foods), Ingredients (for survey foods)"
+NA,"id",NA,NA
+NA,"fdc_id","fdc_id of the food that contains the input food",NA
+NA,"fdc_id_of_input_food","fdc_id of the food that is the input food",NA
+NA,"seq_num","The order in which to display the input food",NA
+NA,"amount","The amount of the input food included within this food given in terms of unit",NA
+NA,"sr_code","The SR (aka NDB) code of the SR food that is the ingredient food (used for Survey (FNDDS) foods only)","Ingredient Code"
+NA,"sr_description","The description of the SR food that is the ingredient food (used for Survey (FNDDS) foods only)","Ingredient Description"
+NA,"unit","The unit of measure for the amount of the input food that is included within this food (used for Survey (FNDDS) foods only)","Measure"
+NA,"portion_code","Code that identifies the portion description used to measure the amount of the ingredient (used for Survey (FNDDS) foods only)",NA
+NA,"portion_description","The description of the portion  used to measure the amount of the ingredient (used for Survey (FNDDS) foods only)","Portion"
+NA,"gram_weight","The weight in grams of the input food","Ingredient Weight (g)"
+NA,"retention_code","A numeric code identifying processing on the input food that may have impacted food nutrient content (used for Survey (FNDDS) foods only)",NA
+NA,"survey_flag","2 = SR description does not match SR code, other values = internal processing codes for FSRG use only","Flag"
+NA,NA,NA,NA
+"lab_method",NA,"A chemical procedure used to measure the amount of one or more nutrients in a food",NA
+NA,"id",NA,NA
+NA,"description","Description of the lab method",NA
+NA,"technique","General chemical analysis approach used by the lab method",NA
+NA,NA,NA,NA
+"lab_method_code",NA,"A short, sometimes lab-specific, sequence of characters used to identify a lab method",NA
+NA,"lab_method_id","ID of the lab method the code refers to",NA
+NA,"code","Value of the method code",NA
+NA,NA,NA,NA
+"lab_method_nutrient",NA,"A nutrient whose amount can be measured by a lab method",NA
+NA,"lab_method_id","ID of the lab method the nutrient is measured by",NA
+NA,"nutrient_id","ID of the nutrient that can be measured by the lab method",NA
+NA,NA,NA,NA
+"market_acquisition",NA,"A food obtained for chemical analysis.",NA
+NA,"fdc_id","ID of the food in the food table","FDC Source ID"
+NA,"brand_description","Brand name description of the food",NA
+NA,"expiration_date","Date the food will expire",NA
+NA,"label_weight","The weight of the  food per the product label",NA
+NA,"location","The region in which the food was purchased, e.g. CA1",NA
+NA,"acquisition_date","Date the food was purchased",NA
+NA,"sales_type","The type of establishment in which the food was acquired (e.g. Retail Store, restaurant, farm, etc.)",NA
+NA,"sample_lot_nbr","The lot number of the food","Sample Lot Number"
+NA,"sell_by_date","Date the food should be sold by",NA
+NA,"store_city","The city where the food was acquired",NA
+NA,"store_name","The name of the store the food is purchased from",NA
+NA,"store_state","The state where the food was acquired",NA
+NA,"upc_code","UPC code for the food. Only applicable for retail products.",NA
+NA,"acquisition_number","The acquisition number (often starting with “CY”) of the sample",NA
+NA,NA,NA,NA
+"measure_unit",NA,"units for measuring quantities of foods",NA
+NA,"id",NA,NA
+NA,"name","name of the unit",NA
+"microbe",NA,"representation of the live microbe colony forming units of product at expiration date",NA
+NA,"id",NA,NA
+NA,"foodid","fdc_id",NA
+NA,"method","method of analysis",NA
+NA,"microbe_code","code representing the scientific name of microbe",NA
+NA,"min_value","minimum value",NA
+NA,"max_value","maximum value",NA
+NA,"uom","unit of measure",NA
+NA,NA,NA,NA
+"nutrient",NA,"The chemical constituent of a food (e.g. calcium, vitamin E) officially recognized as essential to human health",NA
+NA,"id",NA,NA
+NA,"name","Name of the nutrient",NA
+NA,"unit_name","The standard unit of measure for the nutrient (per 100g of food)","Unit"
+NA,"nutrient_nbr","A unique code identifying a nutrient or food constituent",NA
+NA,"rank","An alternate way of ordering nutrients instead of listing alphabetically",NA
+NA,NA,NA,NA
+NA,NA,NA,NA
+"retention_factor",NA,"definitions are available from: www.ars.usda.gov/SP2UserFiles/Place/12354500/Data/retn/retn06.pdf.",NA
+NA,"id",NA,NA
+NA,"retention_code",NA,NA
+NA,"food_group_code",NA,NA
+NA,"retention_description",NA,NA
+NA,NA,NA,NA
+"sample_food",NA,"A food that is acquired as a representative sample of the food supply. It may be created from a single acquired food, or from a composite of multiple acquired foods.",NA
+NA,"fdc_id","ID of the food in the food table",NA
+NA,NA,NA,NA
+"sr_legacy_food",NA,"Foods from the April 2018 release of the USDA National Nutrient Database for Standard Reference. Nutrient and food component values are derived from chemical analysis and calculation.",NA
+NA,"fdc_id","ID of the food in the food table",NA
+NA,"NDB_number","Unique number assigned for final food, starts from the minimum number of 100,000",NA
+NA,NA,NA,NA
+"sub_sample_food",NA,"A portion of a sample food used for the purpose of specific chemical analysis.",NA
+NA,"fdc_id","ID of the food in the food table",NA
+NA,"fdc_id_of_sample_food","ID of the sample food from which the sub sample originated",NA
+NA,NA,NA,NA
+"sub_sample_result",NA,"The result of chemical analysis of a lab on a particular sub sample for a particular nutrient",NA
+NA,"food_nutrient_id","Unique ID for row, same as the food_nutrient ID",NA
+NA,"adjusted_amount","Amount after adjusting for unit",NA
+NA,"lab_method_id","ID of the lab method used to measure the nutrient",NA
+NA,"nutrient_name","The name of the nutrient as supplied by the lab",NA
+NA,NA,NA,NA
+"survey_fndds_food",NA,"Foods whose consumption is measured by the What We Eat In America dietary survey component of the National Health and Nutrition Examination Survey (NHANES). Survey nutrient values are usually calculated from Branded and SR Legacy data.",NA
+NA,"fdc_id","ID of the food in the food table",NA
+NA,"food_code","A unique ID identifying the food within FNDDS",NA
+NA,"wweia_category_code","Unique Identification code for WWEIA food category to which this food is assigned","Food Category"
+NA,"start_date","Start date indicates time period corresponding to WWEIA data",NA
+NA,"end_date","End date indicates time period corresponding to WWEIA data",NA
+NA,NA,NA,NA
+"wweia_food_category",NA,"Food categories for fndds",NA
+NA,"wweia_food_category_code","Unique identification code",NA
+NA,"wweia_food_category_description","Description for a WWEIA Category",NA

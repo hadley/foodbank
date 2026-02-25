@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^\.claude$
 ^LICENSE\.md$
+^data-raw$
+^[.]?air[.]toml$
+^\.vscode$

@@ -42,5 +42,9 @@ for (table in tables) {
   if ("fdc_id" %in% names(df) && table != "food") {
     df <- df[df$fdc_id %in% foundation_fdc_ids, ]
   }
-  nanoparquet::write_parquet(df, paste0("inst/parquet/", table, ".parquet"))
+  nanoparquet::write_parquet(
+    df,
+    paste0("inst/parquet/", table, ".parquet"),
+    compression = "gzip"
+  )
 }

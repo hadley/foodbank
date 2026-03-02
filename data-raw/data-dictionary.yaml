@@ -10,7 +10,7 @@ tables:
       fdc_id: Unique permanent identifier of the food.
       data_type: Type of food data (always "foundation_food" in this dataset).
       description: Description of the food.
-      food_category_id: food_category.id
+      food_category_id: {foreign_key: food_category.id}
       publication_date: Date when the food was published to FoodData Central.
 
   food_nutrient:
@@ -21,8 +21,8 @@ tables:
 
     fields:
       id: Unique permanent identifier.
-      fdc_id: food.fdc_id
-      nutrient_id: nutrient.id
+      fdc_id: {foreign_key: food.fdc_id}
+      nutrient_id: {foreign_key: nutrient.id}
       amount: Amount of the nutrient per 100g of food.
       data_points: Number of observations on which the value is based.
       derivation_id: ID of the food nutrient derivation technique used to derive the value.
@@ -53,12 +53,12 @@ tables:
 
     fields:
       id: Unique permanent identifier.
-      fdc_id: food.fdc_id
+      fdc_id: {foreign_key: food.fdc_id}
       seq_num: The order the measure will be displayed on the released food.
       amount: >
         The number of measure units that comprise the measure
         (e.g. if measure is 3 tsp, the amount is 3).
-      measure_unit_id: measure_unit.id
+      measure_unit_id: {foreign_key: measure_unit.id}
       portion_description: Comments that provide more specificity on the measure.
       modifier: Qualifier of the measure (e.g. related to food shape or form).
       gram_weight: The weight of the measure in grams.

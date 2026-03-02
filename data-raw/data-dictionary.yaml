@@ -40,8 +40,8 @@ tables:
 
     fields:
       id: Unique permanent identifier.
-      name: Name of the nutrient.
-      unit_name: The standard unit of measure for the nutrient (per 100g of food).
+      name: Name of the nutrient (e.g. "Protein", "Calcium, Ca", "Vitamin E (alpha-tocopherol)").
+      unit_name: The standard unit of measure for the nutrient (e.g. G, MG, UG, KCAL, kJ, IU).
       nutrient_nbr: A unique code identifying a nutrient or food constituent.
       rank: Display rank for ordering nutrients.
 
@@ -60,7 +60,7 @@ tables:
         (e.g. if measure is 3 tsp, the amount is 3).
       measure_unit_id: {foreign_key: measure_unit.id}
       portion_description: Comments that provide more specificity on the measure.
-      modifier: Qualifier of the measure (e.g. related to food shape or form).
+      modifier: Qualifier of the measure (e.g. "chopped", "drained", "whole", "sifted").
       gram_weight: The weight of the measure in grams.
       data_points: The number of observations on which the measure is based.
       footnote: Comments on any unusual aspects of the measure.
@@ -72,7 +72,7 @@ tables:
 
     fields:
       id: Unique permanent identifier.
-      name: Name of the unit.
+      name: Name of the unit (e.g. "cup", "tablespoon", "teaspoon", "liter").
 
   food_category:
     description: Foods of defined similarity.
@@ -80,8 +80,8 @@ tables:
 
     fields:
       id: Unique permanent identifier.
-      code: Food group code.
-      description: Description of the food group.
+      code: Food group code (e.g. 100, 200, 900).
+      description: Description of the food group (e.g. "Dairy and Egg Products", "Spices and Herbs", "Fruits and Fruit Juices").
 
 relationships:
   - description: Each food has many nutrient values.

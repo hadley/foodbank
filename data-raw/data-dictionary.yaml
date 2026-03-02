@@ -1,236 +1,119 @@
-food:
-  description: Any substance consumed by humans for nutrition, taste and/or aroma.
-  fields:
-    fdc_id: Unique permanent identifier of the food.
-    foodClass: For internal use only.
-    data_type: Type of food data.
-    description: Description of the food.
-    food_category_id: ID of the food category the food belongs to.
-    publication_date: Date when the food was published to FoodData Central.
-    scientific_name: The scientific name for the food.
+tables:
+  food:
+    description: >
+      Any substance consumed by humans for nutrition, taste and/or aroma.
+      Contains only foundation foods from the USDA FoodData Central
+      (December 2025).
 
-food_attribute:
-  description: The value for a generic property of a food.
-  fields:
-    id: Unique permanent identifier.
-    fdc_id: ID of the food this food attribute pertains to.
-    seq_num: The order the attribute will be displayed on the released food.
-    food_attribute_type_id: ID of the type of food attribute to which this value is associated for a specific food.
-    name: Name of food attribute.
-    value: The actual value of the attribute.
+    fields:
+      fdc_id: Unique permanent identifier of the food.
+      data_type: Type of food data (always "foundation_food" in this dataset).
+      description: Description of the food.
+      food_category_id: food_category.id
+      publication_date: Date when the food was published to FoodData Central.
 
-food_attribute_type:
-  description: The list of supported attributes associated with a food.
-  fields:
-    id: Unique permanent identifier.
-    name: Name of the attribute associated with the food.
-    description: Description of the attribute.
+  food_nutrient:
+    description: >
+      A nutrient value for a food. Amounts are per 100g of food, in the
+      unit defined in the nutrient table.
 
-food_calorie_conversion_factor:
-  description: The multiplication factors to be used when calculating energy from macronutrients for a specific food.
-  fields:
-    food_nutrient_conversion_factor_id: ID of the related row in the food_nutrient_conversion_factor table.
-    protein_value: The multiplication factor for protein.
-    fat_value: The multiplication factor for fat.
-    carbohydrate_value: The multiplication factor for carbohydrates.
+    fields:
+      id: Unique permanent identifier.
+      fdc_id: food.fdc_id
+      nutrient_id: nutrient.id
+      amount: Amount of the nutrient per 100g of food.
+      data_points: Number of observations on which the value is based.
+      derivation_id: ID of the food nutrient derivation technique used to derive the value.
+      min: The minimum amount.
+      max: The maximum amount.
+      median: The median amount.
+      footnote: Comments on any unusual aspects of the food nutrient.
+      min_year_acquired: Minimum purchase year of all acquisitions used to derive the nutrient value.
 
-food_category:
-  description: Foods of defined similarity.
-  fields:
-    id: Unique permanent identifier.
-    code: Food group code.
-    description: Description of the food group.
+  nutrient:
+    description: >
+      The chemical constituents of a food (e.g. calcium, vitamin E)
+      officially recognized as essential to human health.
 
-food_component:
-  description: A constituent part of a food (e.g. bone is a component of meat).
-  fields:
-    id: Unique permanent identifier.
-    fdc_id: ID of the food this food component pertains to.
-    name: The kind of component, e.g. bone.
-    pct_weight: The weight of the component as a percentage of the total weight of the food.
-    is_refuse: Whether the component is refuse, i.e. not edible.
-    gram_weight: The weight of the component in grams.
-    data_points: The number of observations on which the measure is based.
-    min_year_acquired: Minimum purchase year of all acquisitions used to derive the component value.
+    fields:
+      id: Unique permanent identifier.
+      name: Name of the nutrient.
+      unit_name: The standard unit of measure for the nutrient (per 100g of food).
+      nutrient_nbr: A unique code identifying a nutrient or food constituent.
+      rank: Display rank for ordering nutrients.
 
-food_nutrient:
-  description: A nutrient value for a food.
-  fields:
-    id: Unique permanent identifier.
-    fdc_id: ID of the food this food nutrient pertains to.
-    nutrient_id: ID of the nutrient to which the food nutrient pertains.
-    amount: Amount of the nutrient per 100g of food. Specified in unit defined in the nutrient table.
-    data_points: Number of observations on which the value is based.
-    derivation_id: ID of the food nutrient derivation technique used to derive the value.
-    min: The minimum amount.
-    max: The maximum amount.
-    median: The median amount.
-    loq: Limit of quantification as provided by laboratory.
-    footnote: Comments on any unusual aspects of the food nutrient.
-    min_year_acquired: Minimum purchase year of all acquisitions used to derive the nutrient value.
+  food_portion:
+    description: >
+      Discrete amounts of food, used to convert from per-100g nutrient
+      values to common serving sizes.
 
-food_nutrient_conversion_factor:
-  description: Top level type for all types of nutrient conversion factors. A separate row is stored for each of these 3 types of conversion factor.
-  fields:
-    id: Unique permanent identifier.
-    fdc_id: ID of the food that this food nutrient conversion factor pertains to.
+    fields:
+      id: Unique permanent identifier.
+      fdc_id: food.fdc_id
+      seq_num: The order the measure will be displayed on the released food.
+      amount: >
+        The number of measure units that comprise the measure
+        (e.g. if measure is 3 tsp, the amount is 3).
+      measure_unit_id: measure_unit.id
+      portion_description: Comments that provide more specificity on the measure.
+      modifier: Qualifier of the measure (e.g. related to food shape or form).
+      gram_weight: The weight of the measure in grams.
+      data_points: The number of observations on which the measure is based.
+      footnote: Comments on any unusual aspects of the measure.
+      min_year_acquired: Minimum purchase year of all acquisitions used to derive the measure value.
 
-food_nutrient_derivation:
-  description: Procedure indicating how a food nutrient value was obtained.
-  fields:
-    id: Unique permanent identifier.
-    code: Code used for the derivation (e.g. A means analytical).
-    description: Description of the derivation.
+  measure_unit:
+    description: Units for measuring quantities of foods.
 
-food_nutrient_source:
-  description: An information source from which we can obtain food nutrient values.
-  fields:
-    id: Unique permanent identifier.
-    code: Code used for the source (e.g. 4 means calculated or imputed).
-    description: Description of the source.
+    fields:
+      id: Unique permanent identifier.
+      name: Name of the unit.
 
-food_portion:
-  description: Discrete amount of food.
-  fields:
-    id: Unique permanent identifier.
-    fdc_id: ID of the food this food portion pertains to.
-    seq_num: The order the measure will be displayed on the released food.
-    amount: The number of measure units that comprise the measure (e.g. if measure is 3 tsp, the amount is 3).
-    measure_unit_id: The unit used for the measure (e.g. if measure is 3 tsp, the unit is tsp).
-    portion_description: Comments that provide more specificity on the measure.
-    modifier: Qualifier of the measure (e.g. related to food shape or form).
-    gram_weight: The weight of the measure in grams.
-    data_points: The number of observations on which the measure is based.
-    footnote: Comments on any unusual aspects of the measure.
-    min_year_acquired: Minimum purchase year of all acquisitions used to derive the measure value.
+  food_category:
+    description: Foods of defined similarity.
 
-food_protein_conversion_factor:
-  description: The multiplication factor used to calculate protein from nitrogen.
-  fields:
-    food_nutrient_conversion_factor_id: ID of the related row in the food_nutrient_conversion_factor table.
-    value: The multiplication factor used to calculate protein from nitrogen.
+    fields:
+      id: Unique permanent identifier.
+      code: Food group code.
+      description: Description of the food group.
 
-food_update_log_entry:
-  description: Historical record of an update of food data.
-  fields:
-    fdc_id: ID of the food in the food table.
-    description: Description of the food.
-    fdc_publication_date: Date when the food was published to FoodData Central.
+relationships:
+  - description: Each food has many nutrient values.
+    cardinality: one-to-many
+    join: food.fdc_id = food_nutrient.fdc_id
 
-foundation_food:
-  description: Foods whose nutrient and food component values are derived primarily by chemical analysis. Foundation data also include extensive underlying metadata, such as the number of samples, the location and dates on which samples were obtained, analytical approaches used, and if appropriate, cultivar, genotype, and production practices.
-  fields:
-    fdc_id: ID of the food in the food table.
-    NDB_number: Unique number assigned for the food, different from fdc_id, assigned in SR.
-    footnote: Comments on any unusual aspects.
+  - description: Each food has zero or more portion measures.
+    cardinality: one-to-many
+    join: food.fdc_id = food_portion.fdc_id
 
-input_food:
-  description: A food that is an ingredient (for survey foods) or a source food (for foundation foods) to another food.
-  fields:
-    id: Unique permanent identifier.
-    fdc_id: fdc_id of the food that contains the input food.
-    fdc_id_of_input_food: fdc_id of the food that is the input food.
-    seq_num: The order in which to display the input food.
-    amount: The amount of the input food included within this food given in terms of unit.
-    sr_code: The SR (aka NDB) code of the SR food that is the ingredient food.
-    sr_description: The description of the SR food that is the ingredient food.
-    unit: The unit of measure for the amount of the input food.
-    portion_code: Code that identifies the portion description used to measure the amount of the ingredient.
-    portion_description: The description of the portion used to measure the amount of the ingredient.
-    gram_weight: The weight in grams of the input food.
-    retention_code: A numeric code identifying processing on the input food that may have impacted food nutrient content.
-    survey_flag: 2 = SR description does not match SR code, other values = internal processing codes.
+  - description: Each food nutrient value refers to one nutrient.
+    cardinality: many-to-one
+    join: food_nutrient.nutrient_id = nutrient.id
 
-lab_method:
-  description: A chemical procedure used to measure the amount of one or more nutrients in a food.
-  fields:
-    id: Unique permanent identifier.
-    description: Description of the lab method.
-    technique: General chemical analysis approach used by the lab method.
+  - description: Each food portion uses one measure unit.
+    cardinality: many-to-one
+    join: food_portion.measure_unit_id = measure_unit.id
 
-lab_method_code:
-  description: A short, sometimes lab-specific, sequence of characters used to identify a lab method.
-  fields:
-    lab_method_id: ID of the lab method the code refers to.
-    code: Value of the method code.
+  - description: Each food belongs to one food category.
+    cardinality: many-to-one
+    join: food.food_category_id = food_category.id
 
-lab_method_nutrient:
-  description: A nutrient whose amount can be measured by a lab method.
-  fields:
-    lab_method_id: ID of the lab method the nutrient is measured by.
-    nutrient_id: ID of the nutrient that can be measured by the lab method.
-
-market_acquisition:
-  description: A food obtained for chemical analysis.
-  fields:
-    fdc_id: ID of the food in the food table.
-    brand_description: Brand name description of the food.
-    expiration_date: Date the food will expire.
-    label_weight: The weight of the food per the product label.
-    location: The region in which the food was purchased, e.g. CA1.
-    acquisition_date: Date the food was purchased.
-    sales_type: The type of establishment in which the food was acquired.
-    sample_lot_nbr: The lot number of the food.
-    sell_by_date: Date the food should be sold by.
-    store_city: The city where the food was acquired.
-    store_name: The name of the store the food is purchased from.
-    store_state: The state where the food was acquired.
-    upc_code: UPC code for the food. Only applicable for retail products.
-    acquisition_number: The acquisition number of the sample.
-
-measure_unit:
-  description: Units for measuring quantities of foods.
-  fields:
-    id: Unique permanent identifier.
-    name: Name of the unit.
-
-nutrient:
-  description: The chemical constituent of a food (e.g. calcium, vitamin E) officially recognized as essential to human health.
-  fields:
-    id: Unique permanent identifier.
-    name: Name of the nutrient.
-    unit_name: The standard unit of measure for the nutrient (per 100g of food).
-    nutrient_nbr: A unique code identifying a nutrient or food constituent.
-    rank: An alternate way of ordering nutrients instead of listing alphabetically.
-
-retention_factor:
-  description: Definitions are available from www.ars.usda.gov/SP2UserFiles/Place/12354500/Data/retn/retn06.pdf.
-  fields:
-    id: Unique permanent identifier.
-    retention_code: Retention code.
-    food_group_code: Food group code.
-    retention_description: Description of the retention factor.
-
-sample_food:
-  description: A food that is acquired as a representative sample of the food supply. It may be created from a single acquired food, or from a composite of multiple acquired foods.
-  fields:
-    fdc_id: ID of the food in the food table.
-
-sub_sample_food:
-  description: A portion of a sample food used for the purpose of specific chemical analysis.
-  fields:
-    fdc_id: ID of the food in the food table.
-    fdc_id_of_sample_food: ID of the sample food from which the sub sample originated.
-
-sub_sample_result:
-  description: The result of chemical analysis of a lab on a particular sub sample for a particular nutrient.
-  fields:
-    food_nutrient_id: Unique ID for row, same as the food_nutrient ID.
-    adjusted_amount: Amount after adjusting for unit.
-    lab_method_id: ID of the lab method used to measure the nutrient.
-    nutrient_name: The name of the nutrient as supplied by the lab.
-
-agricultural_samples:
-  description: Non-processed foods obtained directly from the location where they are produced.
-  fields:
-    fdc_id: ID of the food in the food table.
-    acquisition_date: The date this food was obtained.
-    market_class: The name of the specific kind of this food (e.g. "Pinto" for pinto beans).
-    treatment: Any special condition relevant to the production of this food - typically "drought" or "control".
-    state: The state in which this food was produced.
-
-acquisition_samples:
-  description: Acquisitions may be blended with other acquisitions to create a sample food, and an acquisition can be used to create more than one sample food. This file stores which acquisitions and sample foods are related to each other.
-  fields:
-    fdc_id_of_sample_food: ID of the sample food that uses the acquisitioned food.
-    fdc_id_of_acquisition_food: ID of the acquisitioned food used in the sample food.
+vocab:
+  foundation food: >
+    A food whose nutrient and food component values are derived primarily
+    by chemical analysis. Foundation data include extensive underlying
+    metadata such as the number of samples, the location and dates on
+    which samples were obtained, analytical approaches used, and if
+    appropriate, cultivar, genotype, and production practices.
+  FDC ID: >
+    FoodData Central identifier. A unique permanent integer assigned to
+    each food in the USDA FoodData Central database.
+  nutrient number: >
+    A unique code from the USDA Standard Reference (SR) system
+    identifying a specific nutrient or food constituent.
+  derivation: >
+    The technique used to derive a nutrient value, such as analytical
+    measurement, calculation, or imputation.
+  measure unit: >
+    A standard unit used to express a food portion size, such as cup,
+    tablespoon, or piece.

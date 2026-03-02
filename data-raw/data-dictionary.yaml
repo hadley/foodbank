@@ -4,6 +4,7 @@ tables:
       Any substance consumed by humans for nutrition, taste and/or aroma.
       Contains only foundation foods from the USDA FoodData Central
       (December 2025).
+    source: inst/parquet/food.parquet
 
     fields:
       fdc_id: Unique permanent identifier of the food.
@@ -16,6 +17,7 @@ tables:
     description: >
       A nutrient value for a food. Amounts are per 100g of food, in the
       unit defined in the nutrient table.
+    source: inst/parquet/food_nutrient.parquet
 
     fields:
       id: Unique permanent identifier.
@@ -34,6 +36,7 @@ tables:
     description: >
       The chemical constituents of a food (e.g. calcium, vitamin E)
       officially recognized as essential to human health.
+    source: inst/parquet/nutrient.parquet
 
     fields:
       id: Unique permanent identifier.
@@ -46,6 +49,7 @@ tables:
     description: >
       Discrete amounts of food, used to convert from per-100g nutrient
       values to common serving sizes.
+    source: inst/parquet/food_portion.parquet
 
     fields:
       id: Unique permanent identifier.
@@ -64,6 +68,7 @@ tables:
 
   measure_unit:
     description: Units for measuring quantities of foods.
+    source: inst/parquet/measure_unit.parquet
 
     fields:
       id: Unique permanent identifier.
@@ -71,6 +76,7 @@ tables:
 
   food_category:
     description: Foods of defined similarity.
+    source: inst/parquet/food_category.parquet
 
     fields:
       id: Unique permanent identifier.

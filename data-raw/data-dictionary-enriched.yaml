@@ -1,0 +1,364 @@
+tables:
+  food:
+    description: |
+      Any substance consumed by humans for nutrition, taste and/or aroma. Contains only foundation foods from the USDA FoodData Central (December 2025).
+      <https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_csv_2025-12-18.zip>
+    source:
+      parquet: inst/parquet/food.parquet
+      r: foodbank::food
+    nrow: 436
+    fields:
+      fdc_id:
+        description: |
+          Unique permanent identifier of the food (e.g. 321358, 321359).
+        type: integer
+        required: yes
+        range: '[321358, 2747676]'
+        mean: 1685000.0
+      description:
+        description: Description of the food.
+        type: character
+        required: yes
+        n_unique: 369
+      food_category_id:
+        description: ID of the food's category.
+        type: integer
+        required: yes
+        range: '[1, 25]'
+        mean: 11.19
+      publication_date:
+        description: |
+          Date when the food was published to FoodData Central.
+        type: character
+        required: yes
+        n_unique: 14
+    constraints:
+      primary_key: fdc_id
+      required:
+      - fdc_id
+      - description
+      - food_category_id
+      - publication_date
+  food_nutrient:
+    description: |
+      A nutrient value for a food. Amounts are per 100g of food, in the unit defined in the nutrient table.
+    source:
+      parquet: inst/parquet/food_nutrient.parquet
+      r: foodbank::food_nutrient
+    nrow: 19828
+    fields:
+      id:
+        description: Unique permanent identifier (e.g. 2219773, 2219774).
+        type: integer
+        required: yes
+        range: '[2219707, 34969298]'
+        mean: 1.498e+07
+      fdc_id:
+        description: ID of the food.
+        type: integer
+        required: yes
+        range: '[321358, 2747676]'
+        mean: 1256000.0
+      nutrient_id:
+        description: ID of the nutrient.
+        type: integer
+        required: yes
+        range: '[1002, 2069]'
+        mean: 1243.0
+      amount:
+        description: Amount of the nutrient per 100g of food.
+        type: double
+        required: no
+        n_missing: 27
+        range: '[-0.705, 38700]'
+        mean: 54.7
+      data_points:
+        description: |
+          Number of observations on which the value is based.
+        type: integer
+        required: no
+        n_missing: 3571
+        range: '[1, 252]'
+        mean: 10.17
+      derivation:
+        description: |
+          The technique used to derive the nutrient value: "Analytical" (measured by chemical analysis), "Summed" (sum of component nutrients), or "Calculated" (derived from other data).
+        type: factor<Analytical, Summed, Calculated>
+        required: no
+        n_missing: 416
+        n_unique: 3
+      min:
+        description: The minimum amount.
+        type: double
+        required: no
+        n_missing: 3798
+        range: '[0, 37200]'
+        mean: 37.97
+      max:
+        description: The maximum amount.
+        type: double
+        required: no
+        n_missing: 3798
+        range: '[0, 40700]'
+        mean: 59.3
+      median:
+        description: The median amount.
+        type: double
+        required: no
+        n_missing: 3196
+        range: '[0, 38500]'
+        mean: 46.11
+      footnote:
+        description: |
+          Comments on any unusual aspects of the food nutrient.
+        type: character
+        required: no
+        n_missing: 19806
+        n_unique: 3
+      min_year_acquired:
+        description: |
+          Minimum purchase year of all acquisitions used to derive the nutrient value.
+        type: integer
+        required: no
+        n_missing: 3655
+        range: '[1999, 2025]'
+        mean: 2016.0
+    constraints:
+      primary_key: id
+      unique:
+      - - fdc_id
+        - nutrient_id
+      required:
+      - id
+      - fdc_id
+      - nutrient_id
+  nutrient:
+    description: |
+      The chemical constituents of a food (e.g. calcium, vitamin E) officially recognized as essential to human health.
+    source:
+      parquet: inst/parquet/nutrient.parquet
+      r: foodbank::nutrient
+    nrow: 477
+    fields:
+      id:
+        description: Unique permanent identifier (e.g. 1003, 1004).
+        type: integer
+        required: yes
+        range: '[1001, 2069]'
+        mean: 1318.0
+      name:
+        description: |
+          Name of the nutrient (e.g. "Protein", "Calcium, Ca", "Vitamin E (alpha-tocopherol)").
+        type: character
+        required: yes
+        n_unique: 474
+      unit_name:
+        description: |
+          The standard unit of measure for the nutrient (e.g. G, MG, UG, KCAL, kJ, IU).
+        type: character
+        required: yes
+        n_unique: 12
+      nutrient_nbr:
+        description: |
+          A unique code identifying a nutrient or food constituent (used for historical matching; missing for some newer nutrients).
+        type: double
+        required: no
+        n_missing: 12
+        range: '[200, 961]'
+        mean: 518.6
+      rank:
+        description: |
+          Display order used by USDA to sort nutrients in reports; more important nutrients appear first (e.g. Water is 100, Energy is 300, Protein is 600, vitamins are 6300+).
+        type: double
+        required: no
+        n_missing: 11
+        range: '[50, 999999]'
+        mean: 227300.0
+    constraints:
+      primary_key: id
+      required:
+      - id
+      - name
+      - unit_name
+  food_portion:
+    description: |
+      Discrete amounts of food, used to convert from per-100g nutrient values to common serving sizes. To convert: `food_nutrient.amount * food_portion.gram_weight / 100`.
+    source:
+      parquet: inst/parquet/food_portion.parquet
+      r: foodbank::food_portion
+    nrow: 187
+    fields:
+      id:
+        description: Unique permanent identifier (e.g. 118804, 118805).
+        type: integer
+        required: yes
+        range: '[118804, 267795]'
+        mean: 145500.0
+      fdc_id:
+        description: ID of the food.
+        type: integer
+        required: yes
+        range: '[321358, 1105314]'
+        mean: 478300.0
+      seq_num:
+        description: |
+          The order the measure will be displayed on the released food.
+        type: integer
+        required: yes
+        range: '[1, 9]'
+        mean: 1.872
+      amount:
+        description: |
+          The number of measure units that comprise the measure (e.g. if measure is 3 tsp, the amount is 3).
+        type: double
+        required: yes
+        range: '[0.2, 100]'
+        mean: 3.264
+      measure_unit_id:
+        description: ID of the measure unit.
+        type: integer
+        required: yes
+        range: '[1000, 1120]'
+        mean: 1033.0
+      portion_description:
+        description: |
+          Comments that provide more specificity on the measure.
+        type: character
+        required: no
+        n_missing: 186
+        n_unique: 1
+      modifier:
+        description: |
+          Qualifier of the measure (e.g. "chopped", "drained", "whole", "sifted").
+        type: character
+        required: no
+        n_missing: 93
+        n_unique: 51
+      gram_weight:
+        description: The weight of the measure in grams.
+        type: double
+        required: yes
+        range: '[3.2, 980]'
+        mean: 180.9
+      data_points:
+        description: |
+          The number of observations on which the measure is based.
+        type: integer
+        required: yes
+        range: '[1, 826]'
+        mean: 40.18
+      footnote:
+        description: |
+          Comments on any unusual aspects of the measure.
+        type: logical
+        required: no
+        n_missing: 187
+        n_unique: 0
+      min_year_acquired:
+        description: |
+          Minimum purchase year of all acquisitions used to derive the measure value.
+        type: integer
+        required: yes
+        range: '[2000, 2019]'
+        mean: 2011.0
+    constraints:
+      primary_key: id
+      required:
+      - id
+      - fdc_id
+      - seq_num
+      - amount
+      - measure_unit_id
+      - gram_weight
+      - data_points
+      - min_year_acquired
+  measure_unit:
+    description: Units for measuring quantities of foods.
+    source:
+      parquet: inst/parquet/measure_unit.parquet
+      r: foodbank::measure_unit
+    nrow: 123
+    fields:
+      id:
+        description: Unique permanent identifier (e.g. 1000, 1001).
+        type: integer
+        required: yes
+        range: '[1000, 9999]'
+        mean: 1133.0
+      name:
+        description: |
+          Name of the unit (e.g. "cup", "tablespoon", "teaspoon", "liter").
+        type: character
+        required: yes
+        n_unique: 123
+    constraints:
+      primary_key: id
+      required:
+      - id
+      - name
+  food_category:
+    description: Foods of defined similarity.
+    source:
+      parquet: inst/parquet/food_category.parquet
+      r: foodbank::food_category
+    nrow: 28
+    fields:
+      id:
+        description: Unique permanent identifier (e.g. 1, 2, 3).
+        type: integer
+        required: yes
+        range: '[1, 28]'
+        mean: 14.5
+      code:
+        description: Food group code (e.g. 100, 200, 900).
+        type: integer
+        required: yes
+        range: '[100, 4500]'
+        mean: 1550.0
+      description:
+        description: |
+          Description of the food group (e.g. "Dairy and Egg Products", "Spices and Herbs", "Fruits and Fruit Juices").
+        type: character
+        required: yes
+        n_unique: 28
+    constraints:
+      primary_key: id
+      unique: code
+      required:
+      - id
+      - code
+      - description
+relationships:
+- description: Each food has many nutrient values.
+  cardinality: one-to-many
+  join: food.fdc_id = food_nutrient.fdc_id
+  conflicts:
+  - data_points
+  - amount
+- description: Each food has zero or more portion measures.
+  cardinality: one-to-many
+  join: food.fdc_id = food_portion.fdc_id
+  conflicts:
+  - data_points
+  - amount
+- description: Each food nutrient value refers to one nutrient.
+  cardinality: many-to-one
+  join: food_nutrient.nutrient_id = nutrient.id
+- description: Each food portion uses one measure unit.
+  cardinality: many-to-one
+  join: food_portion.measure_unit_id = measure_unit.id
+- description: Each food belongs to one food category.
+  cardinality: many-to-one
+  join: food.food_category_id = food_category.id
+  conflicts: description
+glossary:
+  foundation food: |
+    A food whose nutrient and food component values are derived primarily by chemical analysis. Foundation data include extensive underlying metadata such as the number of samples, the location and dates on which samples were obtained, analytical approaches used, and if appropriate, cultivar, genotype, and production practices.
+  FDC ID: |
+    FoodData Central identifier. A unique permanent integer assigned to each food in the USDA FoodData Central database.
+  nutrient number: |
+    A unique code from the USDA Standard Reference (SR) system identifying a specific nutrient or food constituent.
+  derivation: |
+    The technique used to derive a nutrient value, such as analytical measurement, calculation, or imputation.
+  measure unit: A standard unit used to express a food portion size, such as cup,
+    tablespoon, or piece.

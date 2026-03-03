@@ -33,6 +33,17 @@ food <- read.csv(file.path(dir, "food.csv"))
 food <- food[food$data_type == "foundation_food", ]
 foundation_fdc_ids <- food$fdc_id
 
+# Drop data_type since it's always "foundation_food"
+food$data_type <- NULL
+
+# Replace empty footnote strings with NA
+replace_empty <- function(x) ifelse(x == "", NA_character_, x)
+
+# Found by downloading supplemental data and then looking in food_nutrient_derivation.csv
+# Replace derivation_id with a factor describing the derivation technique.
+# Codes from food_nutrient_derivation table in the supporting data download.
+derivation_levels <- c("1" = "Analytical", "4" = "Summed", "49" = "Calculated")
+
 for (table in tables) {
   df <- if (table == "food") {
     food
@@ -41,6 +52,18 @@ for (table in tables) {
   }
   if ("fdc_id" %in% names(df) && table != "food") {
     df <- df[df$fdc_id %in% foundation_fdc_ids, ]
+  }
+  if ("footnote" %in% names(df)) {
+    df$footnote <- replace_empty(df$footnote)
+  }
+  if ("derivation_id" %in% names(df)) {
+    # Place derivation factor in the same position as derivation_id
+    idx <- which(names(df) == "derivation_id")
+    df[[idx]] <- factor(
+      derivation_levels[as.character(df$derivation_id)],
+      levels = derivation_levels
+    )
+    names(df)[idx] <- "derivation"
   }
   nanoparquet::write_parquet(
     df,

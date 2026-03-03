@@ -15,8 +15,8 @@ pertains. Foreign key to \link{nutrient}.}
 \item{amount}{Amount of the nutrient per 100g of food.}
 \item{data_points}{Number of observations on which the value is
 based.}
-\item{derivation_id}{ID of the food nutrient derivation technique
-used to derive the value.}
+\item{derivation}{The technique used to derive the nutrient value:
+"Analytical", "Summed", or "Calculated".}
 \item{min}{The minimum amount.}
 \item{max}{The maximum amount.}
 \item{median}{The median amount.}

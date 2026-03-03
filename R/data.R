@@ -4,10 +4,9 @@
 #' From the USDA FoodData Central Foundation Foods dataset
 #' (December 2025).
 #'
-#' @format A data frame with 436 rows and 5 columns:
+#' @format A data frame with 436 rows and 4 columns:
 #' \describe{
 #'   \item{fdc_id}{Unique permanent identifier of the food.}
-#'   \item{data_type}{Type of food data.}
 #'   \item{description}{Description of the food.}
 #'   \item{food_category_id}{ID of the food category the food belongs
 #'     to. Foreign key to [food_category].}
@@ -51,8 +50,8 @@
 #'   \item{amount}{Amount of the nutrient per 100g of food.}
 #'   \item{data_points}{Number of observations on which the value is
 #'     based.}
-#'   \item{derivation_id}{ID of the food nutrient derivation technique
-#'     used to derive the value.}
+#'   \item{derivation}{The technique used to derive the nutrient value:
+#'     "Analytical", "Summed", or "Calculated".}
 #'   \item{min}{The minimum amount.}
 #'   \item{max}{The maximum amount.}
 #'   \item{median}{The median amount.}

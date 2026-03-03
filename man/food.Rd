@@ -5,10 +5,9 @@
 \alias{food}
 \title{Foods}
 \format{
-A data frame with 436 rows and 5 columns:
+A data frame with 436 rows and 4 columns:
 \describe{
 \item{fdc_id}{Unique permanent identifier of the food.}
-\item{data_type}{Type of food data.}
 \item{description}{Description of the food.}
 \item{food_category_id}{ID of the food category the food belongs
 to. Foreign key to \link{food_category}.}

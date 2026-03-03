@@ -7,7 +7,7 @@ tables:
     source: inst/parquet/food.parquet
 
     fields:
-      fdc_id: Unique permanent identifier of the food.
+      fdc_id: Unique permanent identifier of the food (e.g. 321358, 321359).
       data_type: Type of food data (always "foundation_food" in this dataset).
       description: Description of the food.
       food_category_id: {foreign_key: food_category.id}
@@ -20,7 +20,7 @@ tables:
     source: inst/parquet/food_nutrient.parquet
 
     fields:
-      id: Unique permanent identifier.
+      id: Unique permanent identifier (e.g. 2219773, 2219774).
       fdc_id: {foreign_key: food.fdc_id}
       nutrient_id: {foreign_key: nutrient.id}
       amount: Amount of the nutrient per 100g of food.
@@ -39,7 +39,7 @@ tables:
     source: inst/parquet/nutrient.parquet
 
     fields:
-      id: Unique permanent identifier.
+      id: Unique permanent identifier (e.g. 1003, 1004).
       name: Name of the nutrient (e.g. "Protein", "Calcium, Ca", "Vitamin E (alpha-tocopherol)").
       unit_name: The standard unit of measure for the nutrient (e.g. G, MG, UG, KCAL, kJ, IU).
       nutrient_nbr: A unique code identifying a nutrient or food constituent.
@@ -52,7 +52,7 @@ tables:
     source: inst/parquet/food_portion.parquet
 
     fields:
-      id: Unique permanent identifier.
+      id: Unique permanent identifier (e.g. 118804, 118805).
       fdc_id: {foreign_key: food.fdc_id}
       seq_num: The order the measure will be displayed on the released food.
       amount: >
@@ -71,7 +71,7 @@ tables:
     source: inst/parquet/measure_unit.parquet
 
     fields:
-      id: Unique permanent identifier.
+      id: Unique permanent identifier (e.g. 1000, 1001).
       name: Name of the unit (e.g. "cup", "tablespoon", "teaspoon", "liter").
 
   food_category:
@@ -79,7 +79,7 @@ tables:
     source: inst/parquet/food_category.parquet
 
     fields:
-      id: Unique permanent identifier.
+      id: Unique permanent identifier (e.g. 1, 2, 3).
       code: Food group code (e.g. 100, 200, 900).
       description: Description of the food group (e.g. "Dairy and Egg Products", "Spices and Herbs", "Fruits and Fruit Juices").
 

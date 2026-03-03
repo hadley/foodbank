@@ -4,8 +4,12 @@ tables:
       Any substance consumed by humans for nutrition, taste and/or aroma.
       Contains only foundation foods from the USDA FoodData Central
       (December 2025).
+      
+      <https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_csv_2025-12-18.zip>
     source: inst/parquet/food.parquet
-    primary_key: fdc_id
+    constraints:
+      primary_key: fdc_id
+      required: [fdc_id, data_type, description, food_category_id, publication_date]
 
     fields:
       fdc_id: Unique permanent identifier of the food (e.g. 321358, 321359).
@@ -19,7 +23,10 @@ tables:
       A nutrient value for a food. Amounts are per 100g of food, in the
       unit defined in the nutrient table.
     source: inst/parquet/food_nutrient.parquet
-    primary_key: id
+    constraints:
+      primary_key: id
+      unique: [[fdc_id, nutrient_id]]
+      required: [id, fdc_id, nutrient_id, footnote]
 
     fields:
       id: Unique permanent identifier (e.g. 2219773, 2219774).
@@ -39,21 +46,40 @@ tables:
       The chemical constituents of a food (e.g. calcium, vitamin E)
       officially recognized as essential to human health.
     source: inst/parquet/nutrient.parquet
-    primary_key: id
+    constraints:
+      primary_key: id
+      required: [id, name, unit_name]
 
     fields:
       id: Unique permanent identifier (e.g. 1003, 1004).
       name: Name of the nutrient (e.g. "Protein", "Calcium, Ca", "Vitamin E (alpha-tocopherol)").
       unit_name: The standard unit of measure for the nutrient (e.g. G, MG, UG, KCAL, kJ, IU).
-      nutrient_nbr: A unique code identifying a nutrient or food constituent.
-      rank: Display rank for ordering nutrients.
+      nutrient_nbr: > 
+        A unique code identifying a nutrient or food constituent (used for 
+        historical matching; missing for some newer nutrients).
+      rank: >
+        Display order used by USDA to sort nutrients in reports; more
+        important nutriets appear first (e.g. Water is 100, Energy is 300, Protein
+        is 600, vitamins are 6300+).
 
   food_portion:
     description: >
       Discrete amounts of food, used to convert from per-100g nutrient
       values to common serving sizes.
     source: inst/parquet/food_portion.parquet
-    primary_key: id
+    constraints:
+      primary_key: id
+      required:
+        - id
+        - fdc_id
+        - seq_num
+        - amount
+        - measure_unit_id
+        - portion_description
+        - modifier
+        - gram_weight
+        - data_points
+        - min_year_acquired
 
     fields:
       id: Unique permanent identifier (e.g. 118804, 118805).
@@ -73,7 +99,9 @@ tables:
   measure_unit:
     description: Units for measuring quantities of foods.
     source: inst/parquet/measure_unit.parquet
-    primary_key: id
+    constraints:
+      primary_key: id
+      required: [id, name]
 
     fields:
       id: Unique permanent identifier (e.g. 1000, 1001).
@@ -82,7 +110,10 @@ tables:
   food_category:
     description: Foods of defined similarity.
     source: inst/parquet/food_category.parquet
-    primary_key: id
+    constraints:
+      primary_key: id
+      unique: [[code]]
+      required: [id, code, description]
 
     fields:
       id: Unique permanent identifier (e.g. 1, 2, 3).

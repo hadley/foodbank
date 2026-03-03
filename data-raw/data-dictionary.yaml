@@ -15,7 +15,7 @@ tables:
       fdc_id: Unique permanent identifier of the food (e.g. 321358, 321359).
       data_type: Type of food data (always "foundation_food" in this dataset).
       description: Description of the food.
-      food_category_id: {foreign_key: food_category.id}
+      food_category_id: ID of the food's category.
       publication_date: Date when the food was published to FoodData Central.
 
   food_nutrient:
@@ -30,8 +30,8 @@ tables:
 
     fields:
       id: Unique permanent identifier (e.g. 2219773, 2219774).
-      fdc_id: {foreign_key: food.fdc_id}
-      nutrient_id: {foreign_key: nutrient.id}
+      fdc_id: ID of the food.
+      nutrient_id: ID of the nutrient.
       amount: Amount of the nutrient per 100g of food.
       data_points: Number of observations on which the value is based.
       derivation_id: ID of the food nutrient derivation technique used to derive the value.
@@ -59,13 +59,14 @@ tables:
         historical matching; missing for some newer nutrients).
       rank: >
         Display order used by USDA to sort nutrients in reports; more
-        important nutriets appear first (e.g. Water is 100, Energy is 300, Protein
+        important nutrients appear first (e.g. Water is 100, Energy is 300, Protein
         is 600, vitamins are 6300+).
 
   food_portion:
     description: >
       Discrete amounts of food, used to convert from per-100g nutrient
-      values to common serving sizes.
+      values to common serving sizes. To convert:
+      food_nutrient.amount * food_portion.gram_weight / 100.
     source: inst/parquet/food_portion.parquet
     constraints:
       primary_key: id
@@ -83,12 +84,12 @@ tables:
 
     fields:
       id: Unique permanent identifier (e.g. 118804, 118805).
-      fdc_id: {foreign_key: food.fdc_id}
+      fdc_id: ID of the food.
       seq_num: The order the measure will be displayed on the released food.
       amount: >
         The number of measure units that comprise the measure
         (e.g. if measure is 3 tsp, the amount is 3).
-      measure_unit_id: {foreign_key: measure_unit.id}
+      measure_unit_id: ID of the measure unit.
       portion_description: Comments that provide more specificity on the measure.
       modifier: Qualifier of the measure (e.g. "chopped", "drained", "whole", "sifted").
       gram_weight: The weight of the measure in grams.

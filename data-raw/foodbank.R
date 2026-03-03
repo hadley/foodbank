@@ -36,7 +36,7 @@ foundation_fdc_ids <- food$fdc_id
 # Drop data_type since it's always "foundation_food"
 food$data_type <- NULL
 
-# Replace empty footnote strings with NA
+# Replace empty strings with NA in all character columns
 replace_empty <- function(x) ifelse(x == "", NA_character_, x)
 
 # Found by downloading supplemental data and then looking in food_nutrient_derivation.csv
@@ -53,8 +53,10 @@ for (table in tables) {
   if ("fdc_id" %in% names(df) && table != "food") {
     df <- df[df$fdc_id %in% foundation_fdc_ids, ]
   }
-  if ("footnote" %in% names(df)) {
-    df$footnote <- replace_empty(df$footnote)
+  for (col in names(df)) {
+    if (is.character(df[[col]])) {
+      df[[col]] <- replace_empty(df[[col]])
+    }
   }
   if ("derivation_id" %in% names(df)) {
     # Place derivation factor in the same position as derivation_id

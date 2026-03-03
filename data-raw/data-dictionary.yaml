@@ -78,8 +78,6 @@ tables:
         - seq_num
         - amount
         - measure_unit_id
-        - portion_description
-        - modifier
         - gram_weight
         - data_points
         - min_year_acquired

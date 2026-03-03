@@ -6,7 +6,9 @@ tables:
       (December 2025).
       
       <https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_csv_2025-12-18.zip>
-    source: inst/parquet/food.parquet
+    source:
+      parquet: inst/parquet/food.parquet
+      r: foodbank::food
     constraints:
       primary_key: fdc_id
       required: [fdc_id, description, food_category_id, publication_date]
@@ -21,7 +23,9 @@ tables:
     description: >
       A nutrient value for a food. Amounts are per 100g of food, in the
       unit defined in the nutrient table.
-    source: inst/parquet/food_nutrient.parquet
+    source:
+      parquet: inst/parquet/food_nutrient.parquet
+      r: foodbank::food_nutrient
     constraints:
       primary_key: id
       unique: [[fdc_id, nutrient_id]]
@@ -47,7 +51,9 @@ tables:
     description: >
       The chemical constituents of a food (e.g. calcium, vitamin E)
       officially recognized as essential to human health.
-    source: inst/parquet/nutrient.parquet
+    source:
+      parquet: inst/parquet/nutrient.parquet
+      r: foodbank::nutrient
     constraints:
       primary_key: id
       required: [id, name, unit_name]
@@ -69,7 +75,9 @@ tables:
       Discrete amounts of food, used to convert from per-100g nutrient
       values to common serving sizes. To convert:
       food_nutrient.amount * food_portion.gram_weight / 100.
-    source: inst/parquet/food_portion.parquet
+    source:
+      parquet: inst/parquet/food_portion.parquet
+      r: foodbank::food_portion
     constraints:
       primary_key: id
       required:
@@ -99,7 +107,9 @@ tables:
 
   measure_unit:
     description: Units for measuring quantities of foods.
-    source: inst/parquet/measure_unit.parquet
+    source:
+      parquet: inst/parquet/measure_unit.parquet
+      r: foodbank::measure_unit
     constraints:
       primary_key: id
       required: [id, name]
@@ -110,7 +120,9 @@ tables:
 
   food_category:
     description: Foods of defined similarity.
-    source: inst/parquet/food_category.parquet
+    source:
+      parquet: inst/parquet/food_category.parquet
+      r: foodbank::food_category
     constraints:
       primary_key: id
       unique: [[code]]
@@ -125,10 +137,12 @@ relationships:
   - description: Each food has many nutrient values.
     cardinality: one-to-many
     join: food.fdc_id = food_nutrient.fdc_id
+    conflicts: [data_points, amount]
 
   - description: Each food has zero or more portion measures.
     cardinality: one-to-many
     join: food.fdc_id = food_portion.fdc_id
+    conflicts: [data_points, amount]
 
   - description: Each food nutrient value refers to one nutrient.
     cardinality: many-to-one
@@ -141,6 +155,7 @@ relationships:
   - description: Each food belongs to one food category.
     cardinality: many-to-one
     join: food.food_category_id = food_category.id
+    conflicts: [description]
 
 glossary:
   foundation food: >

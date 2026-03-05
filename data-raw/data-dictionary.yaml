@@ -12,16 +12,24 @@ tables:
       r: foodbank::food
 
     fields:
-      fdc_id: >
-        Unique permanent identifier of the food (e.g. 321358, 321359).
-      description: Description of the food.
-      food_category_id: ID of the food's category.
-      publication_date: >
-        Date when the food was published to FoodData Central.
-
-    constraints:
-      primary_key: fdc_id
-      required: [fdc_id, description, food_category_id, publication_date]
+      - name: fdc_id
+        type: number(id)
+        constraints: [primary_key]
+        description: >
+          Unique permanent identifier of the food (e.g. 321358, 321359).
+      - name: description
+        type: string
+        constraints: [required]
+        description: Description of the food.
+      - name: food_category_id
+        type: number(id)
+        constraints: [required, foreign_key]
+        description: ID of the food's category.
+      - name: publication_date
+        type: string
+        constraints: [required]
+        description: >
+          Date when the food was published to FoodData Central.
 
   food_nutrient:
     description: >
@@ -33,29 +41,49 @@ tables:
       r: foodbank::food_nutrient
 
     fields:
-      id: Unique permanent identifier (e.g. 2219773, 2219774).
-      fdc_id: ID of the food.
-      nutrient_id: ID of the nutrient.
-      amount: Amount of the nutrient per 100g of food.
-      data_points: >
-        Number of observations on which the value is based.
-      derivation: >
-        The technique used to derive the nutrient value: "Analytical"
-        (measured by chemical analysis), "Summed" (sum of component
-        nutrients), or "Calculated" (derived from other data).
-      min: The minimum amount.
-      max: The maximum amount.
-      median: The median amount.
-      footnote: >
-        Comments on any unusual aspects of the food nutrient.
-      min_year_acquired: >
-        Minimum purchase year of all acquisitions used to derive
-        the nutrient value.
-
-    constraints:
-      primary_key: id
-      unique: [[fdc_id, nutrient_id]]
-      required: [id, fdc_id, nutrient_id]
+      - name: id
+        type: number(id)
+        constraints: [primary_key]
+        description: Unique permanent identifier (e.g. 2219773, 2219774).
+      - name: fdc_id
+        type: number(id)
+        constraints: [required, foreign_key]
+        description: ID of the food.
+      - name: nutrient_id
+        type: number(id)
+        constraints: [required, foreign_key]
+        description: ID of the nutrient.
+      - name: amount
+        type: number(quantity)
+        description: Amount of the nutrient per 100g of food.
+      - name: data_points
+        type: number(quantity)
+        description: >
+          Number of observations on which the value is based.
+      - name: derivation
+        type: enum<Analytical, Summed, Calculated>
+        description: >
+          The technique used to derive the nutrient value: "Analytical"
+          (measured by chemical analysis), "Summed" (sum of component
+          nutrients), or "Calculated" (derived from other data).
+      - name: min
+        type: number(ordinal)
+        description: The minimum amount.
+      - name: max
+        type: number(ordinal)
+        description: The maximum amount.
+      - name: median
+        type: number(ordinal)
+        description: The median amount.
+      - name: footnote
+        type: string
+        description: >
+          Comments on any unusual aspects of the food nutrient.
+      - name: min_year_acquired
+        type: number(ordinal)
+        description: >
+          Minimum purchase year of all acquisitions used to derive
+          the nutrient value.
 
   nutrient:
     description: >
@@ -67,25 +95,34 @@ tables:
       r: foodbank::nutrient
 
     fields:
-      id: Unique permanent identifier (e.g. 1003, 1004).
-      name: >
-        Name of the nutrient (e.g. "Protein", "Calcium, Ca",
-        "Vitamin E (alpha-tocopherol)").
-      unit_name: >
-        The standard unit of measure for the nutrient
-        (e.g. G, MG, UG, KCAL, kJ, IU).
-      nutrient_nbr: >
-        A unique code identifying a nutrient or food constituent
-        (used for historical matching; missing for some newer
-        nutrients).
-      rank: >
-        Display order used by USDA to sort nutrients in reports;
-        more important nutrients appear first (e.g. Water is 100,
-        Energy is 300, Protein is 600, vitamins are 6300+).
-
-    constraints:
-      primary_key: id
-      required: [id, name, unit_name]
+      - name: id
+        type: number(id)
+        constraints: [primary_key]
+        description: Unique permanent identifier (e.g. 1003, 1004).
+      - name: name
+        type: string
+        constraints: [required]
+        description: >
+          Name of the nutrient (e.g. "Protein", "Calcium, Ca",
+          "Vitamin E (alpha-tocopherol)").
+      - name: unit_name
+        type: string
+        constraints: [required]
+        description: >
+          The standard unit of measure for the nutrient
+          (e.g. G, MG, UG, KCAL, kJ, IU).
+      - name: nutrient_nbr
+        type: number(id)
+        description: >
+          A unique code identifying a nutrient or food constituent
+          (used for historical matching; missing for some newer
+          nutrients).
+      - name: rank
+        type: number(ordinal)
+        description: >
+          Display order used by USDA to sort nutrients in reports;
+          more important nutrients appear first (e.g. Water is 100,
+          Energy is 300, Protein is 600, vitamins are 6300+).
 
   food_portion:
     description: >
@@ -98,40 +135,59 @@ tables:
       r: foodbank::food_portion
 
     fields:
-      id: Unique permanent identifier (e.g. 118804, 118805).
-      fdc_id: ID of the food.
-      seq_num: >
-        The order the measure will be displayed on the released
-        food.
-      amount: >
-        The number of measure units that comprise the measure
-        (e.g. if measure is 3 tsp, the amount is 3).
-      measure_unit_id: ID of the measure unit.
-      portion_description: >
-        Comments that provide more specificity on the measure.
-      modifier: >
-        Qualifier of the measure (e.g. "chopped", "drained",
-        "whole", "sifted").
-      gram_weight: The weight of the measure in grams.
-      data_points: >
-        The number of observations on which the measure is based.
-      footnote: >
-        Comments on any unusual aspects of the measure.
-      min_year_acquired: >
-        Minimum purchase year of all acquisitions used to derive
-        the measure value.
-
-    constraints:
-      primary_key: id
-      required:
-        - id
-        - fdc_id
-        - seq_num
-        - amount
-        - measure_unit_id
-        - gram_weight
-        - data_points
-        - min_year_acquired
+      - name: id
+        type: number(id)
+        constraints: [primary_key]
+        description: Unique permanent identifier (e.g. 118804, 118805).
+      - name: fdc_id
+        type: number(id)
+        constraints: [required, foreign_key]
+        description: ID of the food.
+      - name: seq_num
+        type: number(ordinal)
+        constraints: [required]
+        description: >
+          The order the measure will be displayed on the released
+          food.
+      - name: amount
+        type: number(quantity)
+        constraints: [required]
+        description: >
+          The number of measure units that comprise the measure
+          (e.g. if measure is 3 tsp, the amount is 3).
+      - name: measure_unit_id
+        type: number(id)
+        constraints: [required, foreign_key]
+        description: ID of the measure unit.
+      - name: portion_description
+        type: string
+        description: >
+          Comments that provide more specificity on the measure.
+          Mostly missing.
+      - name: modifier
+        type: string
+        description: >
+          Qualifier of the measure (e.g. "chopped", "drained",
+          "whole", "sifted").
+      - name: gram_weight
+        type: number(quantity)
+        constraints: [required]
+        description: The weight of the measure in grams.
+      - name: data_points
+        type: number(quantity)
+        constraints: [required]
+        description: >
+          The number of observations on which the measure is based.
+      - name: footnote
+        type: boolean
+        description: >
+          Comments on any unusual aspects of the measure.
+      - name: min_year_acquired
+        type: number(ordinal)
+        constraints: [required]
+        description: >
+          Minimum purchase year of all acquisitions used to derive
+          the measure value.
 
   measure_unit:
     description: Units for measuring quantities of foods.
@@ -141,14 +197,16 @@ tables:
       r: foodbank::measure_unit
 
     fields:
-      id: Unique permanent identifier (e.g. 1000, 1001).
-      name: >
-        Name of the unit (e.g. "cup", "tablespoon", "teaspoon",
-        "liter").
-
-    constraints:
-      primary_key: id
-      required: [id, name]
+      - name: id
+        type: number(id)
+        constraints: [primary_key]
+        description: Unique permanent identifier (e.g. 1000, 1001).
+      - name: name
+        type: string
+        constraints: [required]
+        description: >
+          Name of the unit (e.g. "cup", "tablespoon", "teaspoon",
+          "liter").
 
   food_category:
     description: Foods of defined similarity.
@@ -158,16 +216,20 @@ tables:
       r: foodbank::food_category
 
     fields:
-      id: Unique permanent identifier (e.g. 1, 2, 3).
-      code: Food group code (e.g. 100, 200, 900).
-      description: >
-        Description of the food group (e.g. "Dairy and Egg
-        Products", "Spices and Herbs", "Fruits and Fruit Juices").
-
-    constraints:
-      primary_key: id
-      unique: [[code]]
-      required: [id, code, description]
+      - name: id
+        type: number(id)
+        constraints: [primary_key]
+        description: Unique permanent identifier (e.g. 1, 2, 3).
+      - name: code
+        type: number(id)
+        constraints: [required, unique]
+        description: Food group code (e.g. 100, 200, 900).
+      - name: description
+        type: string
+        constraints: [required]
+        description: >
+          Description of the food group (e.g. "Dairy and Egg
+          Products", "Spices and Herbs", "Fruits and Fruit Juices").
 
 relationships:
   - description: Each food has many nutrient values.

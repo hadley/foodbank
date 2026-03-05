@@ -4,17 +4,16 @@ library(purrr)
 enrich_data_dictionary <- function(dd) {
   dd$tables <- imap(dd$tables, function(spec, name) {
     df <- read_table(name)
-    required <- spec$constraints$required %||% character()
 
     # Insert nrow before fields
     idx <- match("fields", names(spec))
     spec <- append(spec, list(nrow = nrow(df)), after = idx - 1)
 
-    spec$fields <- imap(spec$fields, function(desc, field) {
+    spec$fields <- map(spec$fields, function(fld) {
+      field <- fld$name
       col <- df[[field]]
-      info <- list(description = desc)
+      info <- fld
       info$type <- field_type(col)
-      info$required <- field %in% required
       n <- length(col)
       n_miss <- sum(is.na(col))
       if (n_miss > 0) {
@@ -39,19 +38,17 @@ enrich_data_dictionary <- function(dd) {
 
 field_type <- function(x) {
   if (is.factor(x)) {
-    paste0("factor<", paste(levels(x), collapse = ", "), ">")
+    paste0("enum<", paste(levels(x), collapse = ", "), ">")
   } else if (inherits(x, "Date")) {
     "date"
   } else if (inherits(x, "POSIXct")) {
-    "datetime"
-  } else if (is.integer(x)) {
-    "integer"
-  } else if (is.double(x)) {
-    "double"
+    "timestamp"
+  } else if (is.numeric(x)) {
+    "number"
   } else if (is.character(x)) {
-    "character"
+    "string"
   } else if (is.logical(x)) {
-    "logical"
+    "boolean"
   } else {
     class(x)[[1]]
   }

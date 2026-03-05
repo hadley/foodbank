@@ -8,7 +8,15 @@ Inspirations:
 * [Hex semantic models](https://learn.hex.tech/docs/connect-to-data/semantic-models/semantic-authoring/modeling-specification)
 * [QNCH](https://eagereyes.org/blog/2009/qnch-data-description-language-for-tabular-data).
 
-A data dictionary has three top-level keys: [`tables`](#tables), [`relationships`](#relationships), and [`glossary`](#glossary).
+A data dictionary has the following top-level keys:
+
+| Property | Required | Description |
+|--------------|----------|-------------|
+| `name` | Yes | A short identifier for this data dictionary. |
+| `description` | No | A human-readable description of the dataset. |
+| `tables` | Yes | Table definitions (see [Tables](#tables)). |
+| `relationships` | No | Join descriptors (see [Relationships](#relationships)). |
+| `glossary` | No | Domain terminology (see [Glossary](#glossary)). |
 
 ## Tables
 
@@ -40,7 +48,7 @@ Each entry in the `fields` list is a field descriptor with the following propert
 | Property | Required | Description |
 |-------------|----------|-------------|
 | `name` | Yes | Column name. Must match the column name in the underlying data. |
-| `type` | No | The field's data type. Must match (approximately) the underlying data type (see [Types](#types)). |
+| `type` | Yes | The field's data type. Must match (approximately) the underlying data type (see [Types](#types)). |
 | `constraints` | No | A list of field-level constraints (see [Field constraints](#field-constraints)). |
 | `description` | Yes | A human-readable description of the field. Can use markdown. Can include example values. Should include surprises. |
 
@@ -70,6 +78,8 @@ The `number` type can be qualified with a measure in parentheses that classifies
 | `number(ordinal)` | Yes | No | No | ranks, years, sequence numbers |
 | `number(quantity)` | Yes | Yes | Yes | weights, counts, amounts |
 
+If the measure is omitted (plain `number`), it is unknown.
+
 #### Field constraints
 
 The `constraints` property is a list of constraint names. The supported constraints are:
@@ -90,7 +100,7 @@ For example: `constraints: [primary_key, required]`.
 | Property | Required | Description |
 |--------------|----------|-------------|
 | `description` | Yes | Human-readable description of the relationship. |
-| `cardinality` | Yes | Either `one-to-many` or `many-to-one`. Describes the relationship from the left table to the right table in the join expression. |
+| `cardinality` | Yes | Either `one-to-one`, `one-to-many`, or `many-to-one`. Describes the relationship from the left table to the right table in the join expression. |
 | `join` | Yes | An join expression of the form `table1.field = table2.field`, or `table1.date >= table2.start AND table1.date <= table2.end`. |
 | `conflicts` | No | A list of field names that appear in both tables with different meanings. These fields would cause ambiguity in a join and may need to be renamed or dropped. |
 

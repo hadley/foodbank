@@ -1,3 +1,8 @@
+name: foodbank
+description: >
+  USDA FoodData Central foundation foods, including nutrient values,
+  portion sizes, and food categories (December 2025).
+
 tables:
   food:
     description: >

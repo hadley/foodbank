@@ -21,7 +21,7 @@ tables:
         type: number(id)
         constraints: [primary_key]
         description: >
-          Unique permanent identifier of the food (e.g. 321358, 321359).
+          Unique permanent identifier of the food.
         examples: [321358, 746775, 2003599, 2646173, 2747676]
       - name: description
         type: string
@@ -58,7 +58,7 @@ tables:
       - name: id
         type: number(id)
         constraints: [primary_key]
-        description: Unique permanent identifier (e.g. 2219773, 2219774).
+        description: Unique permanent identifier.
         examples: [2219707, 2263067, 8524084, 27797175, 34969298]
       - name: fdc_id
         type: number(id)
@@ -116,8 +116,8 @@ tables:
 
   nutrient:
     description: >
-      The chemical constituents of a food (e.g. calcium, vitamin E)
-      officially recognized as essential to human health.
+      The chemical constituents of a food officially recognized as
+      essential to human health.
 
     source:
       parquet: inst/parquet/nutrient.parquet
@@ -127,14 +127,13 @@ tables:
       - name: id
         type: number(id)
         constraints: [primary_key]
-        description: Unique permanent identifier (e.g. 1003, 1004).
+        description: Unique permanent identifier.
         examples: [1001, 1120, 1239, 1359, 2069]
       - name: name
         type: string
         constraints: [required]
         description: >
-          Name of the nutrient (e.g. "Protein", "Calcium, Ca",
-          "Vitamin E (alpha-tocopherol)").
+          Name of the nutrient.
         examples:
           - (+) -Gallo catechin
           - Fatty acids, total trans-dienoic
@@ -145,8 +144,7 @@ tables:
         type: string
         constraints: [required]
         description: >
-          The standard unit of measure for the nutrient
-          (e.g. G, MG, UG, KCAL, kJ, IU).
+          The standard unit of measure for the nutrient.
         examples: [G, kJ, MG, UG, KCAL]
       - name: nutrient_nbr
         type: number(id)
@@ -159,8 +157,7 @@ tables:
         type: number(ordinal)
         description: >
           Display order used by USDA to sort nutrients in reports;
-          more important nutrients appear first (e.g. Water is 100,
-          Energy is 300, Protein is 600, vitamins are 6300+).
+          more important nutrients appear first.
         examples: [50, 6242, 10100, 16200, 999999]
 
   food_portion:
@@ -177,7 +174,7 @@ tables:
       - name: id
         type: number(id)
         constraints: [primary_key]
-        description: Unique permanent identifier (e.g. 118804, 118805).
+        description: Unique permanent identifier.
         examples: [118804, 119351, 121438, 187505, 267795]
       - name: fdc_id
         type: number(id)
@@ -213,8 +210,7 @@ tables:
       - name: modifier
         type: string
         description: >
-          Qualifier of the measure (e.g. "chopped", "drained",
-          "whole", "sifted").
+          Qualifier of the measure.
         examples:
           - ' 2-1/2" dia'
           - drained
@@ -255,14 +251,13 @@ tables:
       - name: id
         type: number(id)
         constraints: [primary_key]
-        description: Unique permanent identifier (e.g. 1000, 1001).
+        description: Unique permanent identifier.
         examples: [1000, 1031, 1061, 1091, 9999]
       - name: name
         type: string
         constraints: [required]
         description: >
-          Name of the unit (e.g. "cup", "tablespoon", "teaspoon",
-          "liter").
+          Name of the unit.
         examples:
           - back
           - cup
@@ -281,19 +276,18 @@ tables:
       - name: id
         type: number(id)
         constraints: [primary_key]
-        description: Unique permanent identifier (e.g. 1, 2, 3).
+        description: Unique permanent identifier.
         examples: [1, 8, 14, 21, 28]
       - name: code
         type: number(id)
         constraints: [required, unique]
-        description: Food group code (e.g. 100, 200, 900).
+        description: Food group code.
         examples: [100, 800, 1400, 2000, 4500]
       - name: description
         type: string
         constraints: [required]
         description: >
-          Description of the food group (e.g. "Dairy and Egg
-          Products", "Spices and Herbs", "Fruits and Fruit Juices").
+          Description of the food group.
         examples:
           - Alcoholic Beverages
           - Breakfast Cereals

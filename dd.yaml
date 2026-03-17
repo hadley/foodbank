@@ -39,7 +39,7 @@ tables:
         description: ID of the food's category.
         examples: [1, 7, 12, 16, 25]
       - name: publication_date
-        type: string
+        type: date
         constraints: [required]
         description: >
           Date when the food was published to FoodData Central.

@@ -58,6 +58,9 @@ dfs$food_nutrient[[idx]] <- factor(
 )
 names(dfs$food_nutrient)[idx] <- "derivation"
 
+# Convert publication_date to Date
+dfs$food$publication_date <- as.Date(dfs$food$publication_date)
+
 # Write parquet files
 dir.create("inst/parquet", recursive = TRUE, showWarnings = FALSE)
 out_paths <- paste0("inst/parquet/", names(dfs), ".parquet")

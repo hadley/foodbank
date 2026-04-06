@@ -81,11 +81,11 @@ tables:
           Number of observations on which the value is based.
       - name: derivation
         type: enum
-        values: [Analytical, Summed, Calculated]
-        description: >
-          The technique used to derive the nutrient value: "Analytical"
-          (measured by chemical analysis), "Summed" (sum of component
-          nutrients), or "Calculated" (derived from other data).
+        values:
+          Analytical: Measured by chemical analysis
+          Summed: Sum of component nutrients
+          Calculated: Derived from other data
+        description: The technique used to derive the nutrient value.
       - name: min
         type: number(quantity)
         range: [0, 37200]
@@ -147,23 +147,21 @@ tables:
           - Zinc, Zn
       - name: unit_name
         type: enum
-        values: [G, IU, KCAL, kJ, MCG_RE, MG, MG_ATE, MG_GAE, PH, SP_GR, UG, UMOL_TE]
+        values:
+          G: Grams
+          IU: International units
+          KCAL: Kilocalories
+          kJ: Kilojoules
+          MCG_RE: Micrograms retinol equivalents
+          MG: Milligrams
+          MG_ATE: Milligrams alpha-tocopherol equivalents
+          MG_GAE: Milligrams gallic acid equivalents
+          PH: pH
+          SP_GR: Specific gravity
+          UG: Micrograms
+          UMOL_TE: Micromoles Trolox equivalents
         constraints: [required]
-        description: >
-          The standard unit of measure for the nutrient:
-
-          - G: grams
-          - IU: international units
-          - KCAL: kilocalories
-          - kJ: kilojoules
-          - MCG_RE: micrograms retinol equivalents
-          - MG: milligrams
-          - MG_ATE: milligrams alpha-tocopherol equivalents
-          - MG_GAE: milligrams gallic acid equivalents
-          - PH: pH
-          - SP_GR: specific gravity
-          - UG: micrograms
-          - UMOL_TE: micromoles Trolox equivalents
+        description: The standard unit of measure for the nutrient.
       - name: nutrient_nbr
         type: number(id)
         description: >

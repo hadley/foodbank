@@ -1,3 +1,5 @@
+library(purrr)
+
 url <- "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_csv_2025-12-18.zip"
 dir <- "~/Downloads/foodbank"
 
@@ -27,11 +29,11 @@ tables <- c(
 )
 
 src_paths <- set_names(file.path(dir, paste0(tables, ".csv")), tables)
-dfs <- purrr::map(src_paths, read.csv)
-dfs <- purrr::map(dfs, tibble::as_tibble)
+dfs <- map(src_paths, read.csv)
+dfs <- map(dfs, tibble::as_tibble)
 
 # Replace empty strings with NA in all character columns
-dfs <- purrr::map(dfs, function(df) {
+dfs <- map(dfs, function(df) {
   df[] <- map_if(df, is.character, \(x) ifelse(x == "", NA_character_, x))
   df
 })
@@ -65,6 +67,6 @@ dfs$food$publication_date <- as.Date(dfs$food$publication_date)
 # Write parquet files
 dir.create("inst/parquet", recursive = TRUE, showWarnings = FALSE)
 out_paths <- paste0("inst/parquet/", names(dfs), ".parquet")
-purrr::walk2(dfs, out_paths, function(df, path) {
+walk2(dfs, out_paths, function(df, path) {
   nanoparquet::write_parquet(df, path, compression = "gzip")
 })

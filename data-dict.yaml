@@ -244,10 +244,6 @@ tables:
         description: >
           The number of observations on which the measure is based.
         examples: [1, 13, 32, 60, 826]
-      - name: footnote
-        type: boolean
-        description: >
-          Comments on any unusual aspects of the measure.
       - name: min_year_acquired
         type: number(ordinal)
         constraints: [required]

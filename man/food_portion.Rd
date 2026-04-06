@@ -5,7 +5,7 @@
 \alias{food_portion}
 \title{Food portions}
 \format{
-A data frame with 187 rows and 11 columns:
+A data frame with 187 rows and 10 columns:
 \describe{
 \item{id}{Unique permanent identifier.}
 \item{fdc_id}{ID of the food this food portion pertains to.
@@ -23,7 +23,6 @@ shape or form).}
 \item{gram_weight}{The weight of the measure in grams.}
 \item{data_points}{The number of observations on which the
 measure is based.}
-\item{footnote}{Comments on any unusual aspects of the measure.}
 \item{min_year_acquired}{Minimum purchase year of all acquisitions
 used to derive the measure value.}
 }

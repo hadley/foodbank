@@ -47,6 +47,7 @@ dfs$food_nutrient <- dfs$food_nutrient[
 dfs$food_portion <- dfs$food_portion[
   dfs$food_portion$fdc_id %in% dfs$food$fdc_id,
 ]
+dfs$food_portion$footnote <- NULL
 
 # Replace derivation_id with a factor describing the derivation technique.
 # Codes from food_nutrient_derivation table in the supporting data download.

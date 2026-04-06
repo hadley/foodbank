@@ -13,7 +13,6 @@ Description: Provides the USDA FoodData Central Foundation Foods dataset
 License: CC0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 LazyData: true
 Imports: 
     nanoparquet
@@ -26,3 +25,4 @@ Suggests:
 Config/testthat/edition: 3
 URL: https://github.com/hadley/foodbank
 BugReports: https://github.com/hadley/foodbank/issues
+Config/roxygen2/version: 7.3.3.9000
